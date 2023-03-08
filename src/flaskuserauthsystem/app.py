@@ -1,12 +1,11 @@
 from datetime import datetime
 
 import bcrypt
-from flask import Flask, render_template, request, redirect
-from flask_sqlalchemy import SQLAlchemy
+from flask import render_template, request, redirect
 from loguru import logger as log
 
 from db_models import User
-from db_queries import email_registered, username_registered
+from db_queries import is_email_registered, is_username_registered
 from loader import app, db
 
 
@@ -15,10 +14,11 @@ def about():
     if request.method == 'POST':
         content = request.form.to_dict()
 
-        if (email_raises := email_registered(content['email'])) \
-                or (username_raise := username_registered(content['username'])):
-            # TODO: return error message
-            pass
+        email_raises = is_email_registered(content['email'])
+        username_raise = is_username_registered(content['username'])
+
+        if email_raises or username_raise:
+            return render_template('auth/signup.html', email_raises=email_raises, username_raise=username_raise)
 
         password_hash = bcrypt.hashpw(content['pass'].encode('utf-8'), bcrypt.gensalt())
 
