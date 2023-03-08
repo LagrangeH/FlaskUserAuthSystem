@@ -42,12 +42,12 @@ def about():
 
 @app.route('/signup')
 def signup():
-    return render_template('/auth/signup.html')
+    return render_template('auth/signup.html')
 
 
 @app.route('/signin')
 def signin():
-    return render_template('/auth/signin.html')
+    return render_template('auth/signin.html')
 
 
 if __name__ == '__main__':
