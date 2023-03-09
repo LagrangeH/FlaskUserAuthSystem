@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<title>{% block title %}{% endblock %}</title>
+
+{% endblock %}
+
+{% block main %}
+
+    	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" method="POST" action="/">
+					<span class="login100-form-title p-b-26">
+						{% block form_title %}{% endblock %}
+					</span>
+
+					{% block form_fields %}{% endblock %}
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								{% block button_title %}{% endblock %}
+							</button>
+						</div>
+					</div>
+
+                    {% block form_extra %}{% endblock %}
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
