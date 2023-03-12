@@ -1,5 +1,5 @@
+from flaskuserauthsystem.loader import db
 from db_models import User
-from loader import db
 
 
 def is_username_registered(username) -> bool:

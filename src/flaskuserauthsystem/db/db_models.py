@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from loader import db
+from flaskuserauthsystem.loader import db
 
 
 class User(db.Model):
