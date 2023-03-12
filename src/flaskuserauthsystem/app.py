@@ -4,8 +4,8 @@ import bcrypt
 from flask import render_template, request, redirect
 from loguru import logger as log
 
-from db_models import User
-from db_queries import is_email_registered, is_username_registered
+from db.models import User
+from db.queries import is_email_registered, is_username_registered
 from loader import app, db
 
 
@@ -56,4 +56,14 @@ def reset_password():
 
 
 if __name__ == '__main__':
+    log.add(
+        'logs/debug.lob',
+        level='DEBUG',
+        colorize=True,
+        backtrace=True,
+        diagnose=True,
+        enqueue=True,
+        catch=True,
+    )
+
     app.run(debug=True)
