@@ -1,4 +1,4 @@
-
+// TODO: check equality of password and confirm password
 (function ($) {
     "use strict";
 
@@ -14,8 +14,8 @@
             }
         })
     })
-  
-  
+
+
     /*[ Validate ]*/
     const input = $('.validate-input .input100');
 
@@ -63,7 +63,7 @@
 
         $(thisAlert).removeClass('alert-validate');
     }
-    
+
     /*[ Show pass ]*/
     var showPass = 0;
     $('.btn-show-pass').on('click', function(){
@@ -79,7 +79,7 @@
             $(this).find('i').removeClass('zmdi-eye-off');
             showPass = 0;
         }
-        
+
     });
 
 

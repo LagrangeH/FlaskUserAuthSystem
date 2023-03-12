@@ -9,22 +9,8 @@
 {% endblock %}
 
 {% block form_fields %}
-    <div class="wrap-input100 validate-input" data-validate="Enter valid email">
-        <label>
-            <input class="input100" type="text" name="email">
-            <span class="focus-input100" data-placeholder="Email"></span>
-        </label>
-    </div>
-
-    <div class="wrap-input100 validate-input" data-validate="Enter password">
-        <label>
-            <span class="btn-show-pass">
-                <i class="zmdi zmdi-eye"></i>
-            </span>
-            <input class="input100" type="password" name="pass">
-            <span class="focus-input100" data-placeholder="Password"></span>
-        </label>
-    </div>
+    {% include 'auth/form_fields/email.html' %}
+    {% include 'auth/form_fields/password.html' %}
 {% endblock %}
 
 {% block button_title %}
@@ -32,24 +18,7 @@
 {% endblock %}
 
 {% block form_extra %}
-
-    <div class="text-center p-t-20">
-        <span class="txt1">
-            Forgot a password?
-        </span>
-
-        <a class="txt2" href="reset_password">
-            Reset
-        </a>
-    </div>
-
-    <div class="text-center p-t-5">
-        <span class="txt1">
-            Don't have an account?
-        </span>
-
-        <a class="txt2" href="signup">
-            Sign Up
-        </a>
-    </div>
+    <div class="p-t-15"></div>
+    {% include 'auth/form_extra/reset_password_extra.html' %}
+    {% include 'auth/form_extra/signup_extra.html' %}
 {% endblock %}

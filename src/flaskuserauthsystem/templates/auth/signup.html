@@ -9,29 +9,10 @@
 {% endblock %}
 
 {% block form_fields %}
-    <div class="wrap-input100 validate-input" data-validate="Enter username">
-        <label>
-            <input class="input100" type="text" name="username">
-            <span class="focus-input100" data-placeholder="Username"></span>
-        </label>
-    </div>
-
-    <div class="wrap-input100 validate-input" data-validate="Enter valid email">
-        <label>
-            <input class="input100" type="text" name="email">
-            <span class="focus-input100" data-placeholder="Email"></span>
-        </label>
-    </div>
-
-    <div class="wrap-input100 validate-input" data-validate="Enter password">
-        <label>
-            <span class="btn-show-pass">
-                <i class="zmdi zmdi-eye"></i>
-            </span>
-            <input class="input100" type="password" name="pass">
-            <span class="focus-input100" data-placeholder="Password"></span>
-        </label>
-    </div>
+    {% include 'auth/form_fields/username.html' %}
+    {% include 'auth/form_fields/email.html' %}
+    {% include 'auth/form_fields/password.html' %}
+    {% include 'auth/form_fields/confirm_password.html' %}
 {% endblock %}
 
 {% block button_title %}
@@ -39,13 +20,6 @@
 {% endblock %}
 
 {% block form_extra %}
-    <div class="text-center p-t-20">
-        <span class="txt1">
-            Already have an account?
-        </span>
-
-        <a class="txt2" href="signin">
-            Sign In
-        </a>
-    </div>
+    <div class="p-t-15"></div>
+    {% include 'auth/form_extra/signin_extra.html' %}
 {% endblock %}

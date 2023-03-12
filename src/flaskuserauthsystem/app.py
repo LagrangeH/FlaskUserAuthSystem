@@ -20,7 +20,7 @@ def about():
         if email_raises or username_raise:
             return render_template('auth/signup.html', email_raises=email_raises, username_raise=username_raise)
 
-        password_hash = bcrypt.hashpw(content['pass'].encode('utf-8'), bcrypt.gensalt())
+        password_hash = bcrypt.hashpw(content['password'].encode('utf-8'), bcrypt.gensalt())
 
         new_user = User(
             username=content['username'],
@@ -48,6 +48,11 @@ def signup():
 @app.route('/signin')
 def signin():
     return render_template('auth/signin.html')
+
+
+@app.route('/reset-password')
+def reset_password():
+    return render_template('auth/reset_password.html')
 
 
 if __name__ == '__main__':
