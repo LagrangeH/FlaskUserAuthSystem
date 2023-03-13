@@ -26,5 +26,5 @@ poetry install
 After installing the dependencies, you need to run the application.
 
 ```bash
-poetry run flask run
+poetry run python run src/app.py
 ```

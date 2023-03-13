@@ -57,7 +57,7 @@ def reset_password():
 
 if __name__ == '__main__':
     log.add(
-        'logs/debug.lob',
+        'logs/debug.log',
         level='DEBUG',
         colorize=True,
         backtrace=True,
@@ -65,5 +65,8 @@ if __name__ == '__main__':
         enqueue=True,
         catch=True,
     )
+
+    with app.app_context():
+        db.create_all()
 
     app.run(debug=True)

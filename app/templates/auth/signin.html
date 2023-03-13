@@ -1,0 +1,24 @@
+{% extends 'auth/auth_base.html' %}
+
+{% block title %}
+    Sign In
+{% endblock %}
+
+{% block form_title %}
+    Welcome
+{% endblock %}
+
+{% block form_fields %}
+    {% include 'auth/form_fields/email.html' %}
+    {% include 'auth/form_fields/password.html' %}
+{% endblock %}
+
+{% block button_title %}
+    Sign In
+{% endblock %}
+
+{% block form_extra %}
+    <div class="p-t-15"></div>
+    {% include 'auth/form_extra/reset_password_extra.html' %}
+    {% include 'auth/form_extra/signup_extra.html' %}
+{% endblock %}
