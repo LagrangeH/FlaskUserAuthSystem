@@ -1,4 +1,4 @@
-# FlaskUserAuthSystem
+<h1 style="text-align: center;">Flask User Authentication System</h1>
 
 [//]: # (This is a simple Flask User Authentication System. It uses Flask-SQLAlchemy for database management and SQLite for database. It uses Flask-Login for user session management. It uses Flask-WTF for form handling. It uses Flask-Bootstrap for styling. It uses Flask-Gravatar for user profile picture. It uses Flask-Mail for sending emails. It uses Flask-Script for running the application. It uses Flask-Migrate for database migrations. It uses Flask-DebugToolbar for debugging. It uses Flask-Testing for testing.)
 
