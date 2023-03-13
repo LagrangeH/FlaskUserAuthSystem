@@ -64,6 +64,7 @@ if __name__ == '__main__':
         diagnose=True,
         enqueue=True,
         catch=True,
+        delay=False,
     )
 
     with app.app_context():
