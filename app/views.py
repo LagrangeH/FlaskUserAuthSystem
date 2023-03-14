@@ -1,12 +1,24 @@
+import functools
 from datetime import datetime
 
 import bcrypt
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session, url_for, g
 from loguru import logger as log
 
 from db.models import User
 from db.queries import is_username_registered, is_email_registered
 from loader import app, db
+
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -53,3 +65,9 @@ def signin():
 @app.route('/reset-password')
 def reset_password():
     return render_template('auth/reset_password.html')
+
+
+@app.route('/logout')
+def logout():
+    # session.clear()
+    return redirect(url_for('index'))
