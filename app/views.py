@@ -2,7 +2,7 @@ import functools
 from datetime import datetime
 
 import bcrypt
-from flask import render_template, request, redirect, session, url_for, g
+from flask import render_template, request, redirect, session, g
 from loguru import logger as log
 
 import db.models
@@ -14,7 +14,7 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
+            return redirect('signin')
 
         return view(**kwargs)
 
@@ -30,7 +30,9 @@ def about():
         username_raise = db.queries.is_username_registered(content['username'])
 
         if email_raises or username_raise:
-            return render_template('auth/signup.html', email_raises=email_raises, username_raise=username_raise)
+            return render_template('auth/signup.html',
+                                   email_raises=email_raises,
+                                   username_raise=username_raise)
 
         password_hash = bcrypt.hashpw(content['password'].encode('utf-8'), bcrypt.gensalt())
 
@@ -64,4 +66,4 @@ def reset_password():
 @app.route('/logout')
 def logout():
     # session.clear()
-    return redirect(url_for('index'))
+    return redirect('/')
