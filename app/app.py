@@ -6,7 +6,7 @@ from loguru import logger as log
 
 from db.models import User
 from db.queries import is_email_registered, is_username_registered
-from loader import app, db
+from loader import app, db, run_app
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -56,18 +56,4 @@ def reset_password():
 
 
 if __name__ == '__main__':
-    log.add(
-        'logs/debug.log',
-        level='DEBUG',
-        colorize=True,
-        backtrace=True,
-        diagnose=True,
-        enqueue=True,
-        catch=True,
-        delay=False,
-    )
-
-    with app.app_context():
-        db.create_all()
-
-    app.run(debug=True)
+    run_app(debug=True)

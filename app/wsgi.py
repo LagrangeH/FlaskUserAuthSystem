@@ -1,8 +1,5 @@
-from loader import app, db
+from loader import run_app
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-
-    app.run(debug=False)
+    run_app(debug=False)
