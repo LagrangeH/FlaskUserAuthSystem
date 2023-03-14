@@ -67,3 +67,6 @@ def reset_password():
 def logout():
     # session.clear()
     return redirect('/')
+
+
+# TODO: Add restore_password view
