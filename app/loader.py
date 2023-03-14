@@ -26,7 +26,9 @@ def run_app(debug=False):
     configure_logging(debug=debug)
 
     # Create tables if they don't exist
-    with app.app_context():
-        db.create_all()
+    # from db.models import User
+    #
+    # with app.app_context():
+    #     db.create_all()
 
     app.run(debug=True)

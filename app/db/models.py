@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from loader import db
+from loader import app, db
 
 
 class User(db.Model):
@@ -12,3 +12,8 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.username!r}>'
+
+
+# Create tables if they don't exist
+with app.app_context():
+    db.create_all()
