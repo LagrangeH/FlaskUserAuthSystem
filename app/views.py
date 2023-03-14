@@ -5,9 +5,9 @@ import bcrypt
 from flask import render_template, request, redirect, session, url_for, g
 from loguru import logger as log
 
-from db.models import User
-from db.queries import is_username_registered, is_email_registered
-from loader import app, db
+import db.models
+import db.queries
+from loader import app
 
 
 def login_required(view):
@@ -26,28 +26,22 @@ def about():
     if request.method == 'POST':
         content = request.form.to_dict()
 
-        email_raises = is_email_registered(content['email'])
-        username_raise = is_username_registered(content['username'])
+        email_raises = db.queries.is_email_registered(content['email'])
+        username_raise = db.queries.is_username_registered(content['username'])
 
         if email_raises or username_raise:
             return render_template('auth/signup.html', email_raises=email_raises, username_raise=username_raise)
 
         password_hash = bcrypt.hashpw(content['password'].encode('utf-8'), bcrypt.gensalt())
 
-        new_user = User(
+        new_user = db.models.User(
             username=content['username'],
             email=content['email'],
             password_hash=password_hash,
             registration_date=datetime.utcnow(),
         )
 
-        try:
-            db.session.add(new_user)
-            db.session.commit()
-            log.success(f'{new_user} has been registered!')
-            return redirect('/')
-        except Exception as e:
-            log.opt(exception=True).error(e)
+        db.queries.create_user(new_user)
 
     return render_template('index.html')
 
