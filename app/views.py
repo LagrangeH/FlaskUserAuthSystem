@@ -23,38 +23,42 @@ def login_required(view):
 
 @app.route('/', methods=['GET', 'POST'])
 def about():
-    if request.method == 'POST':
-        content = request.form.to_dict()
-
-        email_raises = db.queries.is_email_registered(content['email'])
-        username_raise = db.queries.is_username_registered(content['username'])
-
-        if email_raises or username_raise:
-            return render_template('auth/signup.html',
-                                   email_raises=email_raises,
-                                   username_raise=username_raise)
-
-        password_hash = bcrypt.hashpw(content['password'].encode('utf-8'), bcrypt.gensalt())
-
-        new_user = db.models.User(
-            username=content['username'],
-            email=content['email'],
-            password_hash=password_hash,
-            registration_date=datetime.utcnow(),
-        )
-
-        db.queries.create_user(new_user)
-
+    # if request.method == 'POST':
+    #     content = request.form.to_dict()
+    #
+    #     email_raises = db.queries.is_email_registered(content['email'])
+    #     username_raise = db.queries.is_username_registered(content['username'])
+    #
+    #     if email_raises or username_raise:
+    #         return render_template('auth/signup.html',
+    #                                email_raises=email_raises,
+    #                                username_raise=username_raise)
+    #
+    #     password_hash = bcrypt.hashpw(content['password'].encode('utf-8'), bcrypt.gensalt())
+    #
+    #     new_user = db.models.User(
+    #         username=content['username'],
+    #         email=content['email'],
+    #         password_hash=password_hash,
+    #         registration_date=datetime.utcnow(),
+    #     )
+    #
+    #     db.queries.create_user(new_user)
+    log.debug("GET request from index")
     return render_template('index.html')
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if request.method == 'POST':
+        log.debug("POST request from signup")
     return render_template('auth/signup.html')
 
 
-@app.route('/signin')
+@app.route('/signin', methods=['GET', 'POST'])
 def signin():
+    if request.method == 'POST':
+        log.debug("POST request from signin")
     return render_template('auth/signin.html')
 
 
