@@ -75,8 +75,8 @@ def reset_password():
     return render_template('auth/reset_password.html')
 
 
-@app.route('/logout')
-def logout():
+@app.route('/signout')
+def signout():
     # session.clear()
     return redirect('/')
 
