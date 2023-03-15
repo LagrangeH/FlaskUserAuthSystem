@@ -31,20 +31,23 @@ def configure_logging(debug: bool = False) -> None:
 def create_app(debug: bool = False) -> Flask:
     configure_logging(debug=debug)
 
+    # App initialization
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
     app.secret_key = secrets.token_hex()
     app.debug = debug
     app.teardown_appcontext(close_db)
 
+    # Database initialization
     app.app_context().push()
-
     db = get_db(app=app)
 
+    # Blueprints registration
     from blueprints import main, auth
     main.bp.register_blueprint(auth.bp)
     app.register_blueprint(main.bp)
 
+    # Database creation
     from database import models
     with app.app_context():
         db.create_all()
