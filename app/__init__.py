@@ -14,7 +14,7 @@ from database import get_db
 # login_manager.init_app(app)
 
 
-def configure_logging(debug=False) -> None:
+def configure_logging(debug: bool = False) -> None:
     if debug:
         log.add(
             'logs/debug.log',
