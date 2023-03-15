@@ -57,7 +57,7 @@ def create_app(debug: bool = False) -> Flask:
         It allows to automatically pass debug parameter to app.run() method
         from debug argument of create_app() to avoid passing it manually.
         """
-        if func.__name__ != 'run':
+        if func.__name__ != 'run' or getattr(func, '__module__', None) != 'flask.app':
             raise ValueError('Passed function is not app.run() method')
 
         @functools.wraps(func)
