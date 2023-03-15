@@ -18,3 +18,7 @@ def create_user(new_user: User):
     db.session.add(new_user)
     db.session.commit()
     log.debug(f'{new_user} has been registered!')
+
+
+def get_user_by_email(email) -> User | None:
+    return db.session.query(User).filter_by(email=email).first()
