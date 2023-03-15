@@ -10,6 +10,12 @@ from database import models, queries
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
+@bp.route('/')
+def auth():
+    # TODO
+    return "Auth root page"
+
+
 @bp.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
