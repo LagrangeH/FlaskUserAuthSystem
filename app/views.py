@@ -58,14 +58,17 @@ def signin():
         user = db.queries.get_user_by_email(request.form.get('email'))
 
         if user is None:
+            log.debug(f'User with email {request.form.get("email")} not found')
             return render_template('auth/signin.html', email_raise=True)
 
-        if bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
+        elif bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
             session['user_id'] = user.id
             return redirect('/')
 
-        return render_template('auth/signin.html', password_raise=True)
+        else:
+            log.debug(f'Password for user {user} is incorrect')
+            return render_template('auth/signin.html', password_raise=True)
 
     return render_template('auth/signin.html')
 
@@ -77,7 +80,7 @@ def reset_password():
 
 @app.route('/signout')
 def signout():
-    # session.clear()
+    session.clear()
     return redirect('/')
 
 
