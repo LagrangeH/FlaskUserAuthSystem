@@ -10,17 +10,6 @@ import db.queries
 from loader import app
 
 
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect('signin')
-
-        return view(**kwargs)
-
-    return wrapped_view
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
