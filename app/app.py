@@ -1,5 +1,5 @@
-from loader import app, db, run_app
+from . import create_app
 
 
 if __name__ == '__main__':
-    run_app(debug=True)
+    create_app(debug=True).run()

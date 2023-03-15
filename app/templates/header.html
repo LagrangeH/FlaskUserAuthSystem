@@ -9,10 +9,10 @@
                         <li class="p-r-20 p-l-20"><a href="/" class="nav-link txt2">About</a></li>
                         {% if user_authtorized %}
 {#                            <li class="p-r-20 p-l-20"><a href="/profile" class="nav-link txt2">Profile</a></li>#}
-                            <li class="p-r-20 p-l-20"><a href="/logout" class="nav-link txt2">Sign out</a></li>
+                            <li class="p-r-20 p-l-20"><a href="/auth/logout" class="nav-link txt2">Sign out</a></li>
                         {% else %}
-                            <li class="p-r-20 p-l-20"><a href="/signup" class="nav-link txt2">Sign Up</a></li>
-                            <li class="p-r-20 p-l-20"><a href="/signin" class="nav-link txt2">Sign In</a></li>
+                            <li class="p-r-20 p-l-20"><a href="/auth/signup" class="nav-link txt2">Sign Up</a></li>
+                            <li class="p-r-20 p-l-20"><a href="/auth/signin" class="nav-link txt2">Sign In</a></li>
                         {% endif %}
                     </ul>
                 </div>
