@@ -29,16 +29,12 @@ def configure_logging(debug: bool = False) -> None:
 
 
 def create_app(debug: bool = False) -> Flask:
-    """
-    Creates Flask app. When calling app.run() method, debug parameter is passed automatically.
-    :param debug: debug mode for logging and for Flask app
-    :return:
-    """
     configure_logging(debug=debug)
 
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
     app.secret_key = secrets.token_hex()
+    app.debug = debug
     app.app_context().push()
 
     db = get_db(app=app)
@@ -50,22 +46,5 @@ def create_app(debug: bool = False) -> Flask:
     from database import models
     with app.app_context():
         db.create_all()
-
-    def _run(func: callable, d: bool = False) -> callable:
-        """
-        Decorator for app.run() method.
-        It allows to automatically pass debug parameter to app.run() method
-        from debug argument of create_app() to avoid passing it manually.
-        """
-        if func.__name__ != 'run' or getattr(func, '__module__', None) != 'flask.app':
-            raise ValueError('Passed function is not app.run() method')
-
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            return func(d, *args, **kwargs)
-
-        return wrapper
-
-    app.run = _run(app.run, debug)
 
     return app
