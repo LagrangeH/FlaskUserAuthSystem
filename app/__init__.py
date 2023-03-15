@@ -6,7 +6,7 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from loguru import logger as log
 
-from database import get_db
+from database import get_db, close_db
 
 
 # login_manager = LoginManager()
@@ -35,6 +35,8 @@ def create_app(debug: bool = False) -> Flask:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
     app.secret_key = secrets.token_hex()
     app.debug = debug
+    app.teardown_appcontext(close_db)
+
     app.app_context().push()
 
     db = get_db(app=app)
