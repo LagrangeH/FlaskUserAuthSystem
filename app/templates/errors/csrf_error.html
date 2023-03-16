@@ -1,0 +1,8 @@
+{% extends 'errors/error_base.html' %}
+
+{% block title %}{{ _('Bad request') }}{% endblock %}
+
+{% block content %}
+    <h1>{{ _('Error 400. Bad request') }}</h1>
+    <p>{{ _('The server could not understand the request.') }}</p>
+{% endblock %}
