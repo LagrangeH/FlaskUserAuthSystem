@@ -10,7 +10,7 @@
 
 {% block main %}
     {% if current_user.is_authenticated %}
-        <p>Hello, {{ current_user.name }}.</p>
+        <p>Hello, {{ current_user.username }}.</p>
     {% else %}
         <p>Hello, stranger.</p>
     {% endif %}
