@@ -13,7 +13,7 @@ def page_not_found():
 
 @bp.errorhandler(CSRFError)
 def handle_csrf_error(e):
-    return render_template('errors/csrf_error.html', reason=e.description), 400
+    return render_template('errors/csrf.html', reason=e.description), 400
 
 
 @bp.route('/')
