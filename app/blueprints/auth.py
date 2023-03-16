@@ -2,6 +2,7 @@ from datetime import datetime
 
 import bcrypt
 from flask import Blueprint, request, session, redirect, render_template
+from flask_login import login_user
 from loguru import logger as log
 
 from database import models, queries
@@ -37,6 +38,7 @@ def signup():
         )
 
         queries.create_user(new_user)
+        login_user(new_user.id)
         return render_template('index.html')
 
     return render_template('auth/signup.html')
@@ -54,6 +56,7 @@ def signin():
         elif bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
             session['user_id'] = user.id
+            login_user(user.id)
             return redirect('/')
 
         else:
