@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>About</title>
+    <title>About</title>
 {% endblock %}
 
 {% block header %}
-<p>Hello</p>
+    <p>Hello</p>
 {% endblock %}
 
 {% block main %}
-<p>Here is some information about me.</p>
+    {% if current_user.is_authenticated %}
+        <p>Hello, {{ current_user.name }}.</p>
+    {% else %}
+        <p>Hello, stranger.</p>
+    {% endif %}
 {% endblock %}
 
 {% block footer %}
-<p>Goodbye</p>
+    <p>Goodbye</p>
 {% endblock %}

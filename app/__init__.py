@@ -30,7 +30,8 @@ def create_app(debug: bool = False) -> Flask:
 
     @login_manager.user_loader
     def load_user(user_id: int) -> User | None:
-        return get_user_by_id(user_id)
+        print(f"User {user_id} loaded\n{User.query.get(user_id)}")
+        return User.query.get(user_id)
 
     # Blueprints registration
     from blueprints import main, auth
