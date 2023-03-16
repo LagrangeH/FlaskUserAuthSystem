@@ -12,11 +12,21 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" method="POST">
+                    {{ form.csrf_token }}
 					<span class="login100-form-title p-b-26">
 						{% block form_title %}{% endblock %}
 					</span>
 
 					{% block form_fields %}{% endblock %}
+
+                    <p>
+                    {% for error in form.recaptcha.errors %}
+{#                        <div class="alert alert-danger" role="alert">#}
+                            {{ error }}
+{#                        </div>#}
+                    {% endfor %}
+                    {{ form.recaptcha }}
+                    </p>
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">

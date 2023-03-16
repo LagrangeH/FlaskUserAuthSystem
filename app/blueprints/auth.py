@@ -6,7 +6,7 @@ from flask_login import login_user
 from loguru import logger as log
 
 from database import models, queries
-
+from forms import SignUpForm
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -18,7 +18,7 @@ def auth():
 
 
 @bp.route('/signup', methods=['GET', 'POST'])
-def signup():
+def signup(form=None):
     if request.method == 'POST':
         email_raises = queries.is_email_registered(request.form.get('email'))
         username_raise = queries.is_username_registered(request.form.get('username'))
@@ -41,7 +41,10 @@ def signup():
         login_user(new_user)
         return render_template('index.html')
 
-    return render_template('auth/signup.html')
+    if form is None:
+        form = SignUpForm()
+
+    return render_template('auth/signup.html', form=form)
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
