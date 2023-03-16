@@ -6,7 +6,7 @@ from flask_login import login_user
 from loguru import logger as log
 
 from database import models, queries
-from forms import SignUpForm
+from forms import SignUpForm, SignInForm, ResetPasswordForm, RestorePasswordForm
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -48,13 +48,16 @@ def signup(form=None):
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
-def signin():
+def signin(form=None):
+    if form is None:
+        form = SignInForm()
+
     if request.method == 'POST':
         user = queries.get_user_by_email(request.form.get('email'))
 
         if user is None:
             log.debug(f'User with email {request.form.get("email")} not found')
-            return render_template('auth/signin.html', email_raise=True)
+            return render_template('auth/signin.html', email_raise=True, form=form)
 
         elif bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
@@ -64,20 +67,35 @@ def signin():
 
         else:
             log.debug(f'Password for user {user} is incorrect')
-            return render_template('auth/signin.html', password_raise=True)
+            return render_template('auth/signin.html', password_raise=True, form=form)
 
-    return render_template('auth/signin.html')
+    return render_template('auth/signin.html', form=form)
 
 
 @bp.route('/reset-password')
-def reset_password():
-    return render_template('auth/reset_password.html')
+def reset_password(form=None):
+    if form is None:
+        form = ResetPasswordForm()
+    return render_template('auth/reset_password.html', form=form)
+
+
+@bp.route('/restore-password', methods=['GET', 'POST'])
+def restore_password(form=None):
+    """
+    The form must be accessible by the hash generated
+    after submitting the ``reset_password`` form.
+    The hash link is sent to the specified email and is valid for some time
+    """
+    if form is None:
+        form = RestorePasswordForm()
+
+    if request.method == 'POST':
+        pass
+
+    return render_template('auth/reset_password.html', form=form)
 
 
 @bp.route('/signout')
 def signout():
     session.clear()
     return redirect('/')
-
-
-# TODO: Add restore_password view
