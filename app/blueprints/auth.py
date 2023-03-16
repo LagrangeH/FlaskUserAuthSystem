@@ -38,7 +38,7 @@ def signup():
         )
 
         queries.create_user(new_user)
-        login_user(new_user.id)
+        login_user(new_user)
         return render_template('index.html')
 
     return render_template('auth/signup.html')
@@ -56,7 +56,7 @@ def signin():
         elif bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
             session['user_id'] = user.id
-            login_user(user.id)
+            login_user(user)
             return redirect('/')
 
         else:

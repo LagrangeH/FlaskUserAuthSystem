@@ -4,12 +4,9 @@
             <div class="container">
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav m-auto">
-{#                        <li class="p-r-20 p-l-20"><a href="/" class="nav-link txt2">Home</a></li>#}
-{#                        <li class="p-r-20 p-l-20"><a href="#" class="nav-link txt2">Contact</a></li>#}
-                        <li class="p-r-20 p-l-20"><a href="/" class="nav-link txt2">About</a></li>
-                        {% if user_authtorized %}
-{#                            <li class="p-r-20 p-l-20"><a href="/profile" class="nav-link txt2">Profile</a></li>#}
-                            <li class="p-r-20 p-l-20"><a href="/auth/logout" class="nav-link txt2">Sign out</a></li>
+                        <li class="p-r-20 p-l-20"><a href="/" class="nav-link txt2">Home</a></li>
+                        {% if current_user.is_authenticated %}
+                            <li class="p-r-20 p-l-20"><a href="/auth/signout" class="nav-link txt2">Sign out</a></li>
                         {% else %}
                             <li class="p-r-20 p-l-20"><a href="/auth/signup" class="nav-link txt2">Sign Up</a></li>
                             <li class="p-r-20 p-l-20"><a href="/auth/signin" class="nav-link txt2">Sign In</a></li>
