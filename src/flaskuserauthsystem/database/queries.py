@@ -22,7 +22,3 @@ def create_user(new_user: User):
 
 def get_user_by_email(email) -> User | None:
     return DB.obj.session.query(User).filter_by(email=email).first()
-
-
-def get_user_by_id(user_id) -> User | None:
-    return DB.obj.session.query(User).filter_by(id=user_id).first()
