@@ -9,17 +9,20 @@
 {% endblock %}
 
 {% block form_fields %}
-    {% if email_raises and username_raise %}
+    {% if email_raises or username_raise %}
         <div class="alert alert-danger" role="alert">
-            <p><strong>Username and email already exist.</strong> Try <a href="auth/signin">sign in</a> or <a href="auth/reset-password">reset your password</a>.</p>
-        </div>
-    {% elif email_raises %}
-        <div class="alert alert-danger" role="alert">
-            <p><strong>Email already exists.</strong> Try <a href="auth/signin">sign in</a> or <a href="auth/reset-password">reset your password</a>.</p>
-        </div>
-    {% elif username_raise %}
-        <div class="alert alert-danger" role="alert">
-            <p><strong>Username already exists.</strong> Try <a href="auth/signin">sign in</a> or <a href="auth/reset-password">reset your password</a>.</p>
+            <div class="alert-heading">
+                {% if email_raises and username_raise %}
+                    This username and email is already registered.
+                {% elif email_raises %}
+                    This email is already registered.
+                {% elif username_raise %}
+                    This username is already registered.
+                {% endif %}
+            </div>
+            <p>
+                Try <a href="auth/signin">sign in</a> or <a href="auth/reset-password">reset your password</a>.
+            </p>
         </div>
     {% endif %}
 
