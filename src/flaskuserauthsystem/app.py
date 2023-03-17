@@ -5,10 +5,10 @@ from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 from loguru import logger as log
 
-from database import DB
-from database.models import User
-from database.queries import get_user_by_id
-from log_config import configure_logging
+from src.flaskuserauthsystem.database import DB
+from src.flaskuserauthsystem.database.models import User
+from src.flaskuserauthsystem.database.queries import get_user_by_id
+from src.flaskuserauthsystem.log_config import configure_logging
 
 
 def create_app(debug: bool = False) -> Flask:
@@ -41,12 +41,12 @@ def create_app(debug: bool = False) -> Flask:
         return get_user_by_id(user_id)
 
     # Blueprints registration
-    from blueprints import main, auth
+    from src.flaskuserauthsystem.blueprints import main, auth
     main.bp.register_blueprint(auth.bp)
     app.register_blueprint(main.bp)
 
     # Database creation
-    from database import models
+    from src.flaskuserauthsystem.database import models
     DB.obj.create_all()
 
     log.debug(f"App created with debug={debug}")

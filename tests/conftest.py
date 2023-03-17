@@ -1,5 +1,8 @@
-import pytest
+# import sys
+# from pathlib import Path
+# sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+import pytest
 from src.flaskuserauthsystem.app import create_app
 
 

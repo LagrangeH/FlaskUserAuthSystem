@@ -5,6 +5,9 @@ description = ""
 authors = ["Maxim Sergeev <maxsergeev39+gh@gmail.com>"]
 readme = "README.md"
 repository = "https://github.com/LagrangeH/FlaskUserAuthSystem"
+packages = [
+    { include = "flaskuserauthsystem", from = "src" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -14,7 +17,6 @@ flask-sqlalchemy = "^3.0.3"
 bcrypt = "^4.0.1"
 flask-login = "^0.6.2"
 flask-wtf = "^1.1.1"
-
 
 [tool.poetry.group.dev.dependencies]
 pytest-flask = "^1.2.0"

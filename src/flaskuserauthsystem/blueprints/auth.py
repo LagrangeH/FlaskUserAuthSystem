@@ -5,8 +5,8 @@ from flask import Blueprint, request, session, redirect, render_template
 from flask_login import login_user, current_user
 from loguru import logger as log
 
-from database import models, queries
-from utils.forms import RecaptchaForm
+from src.flaskuserauthsystem.database import models, queries
+from src.flaskuserauthsystem.utils.forms import RecaptchaForm
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
