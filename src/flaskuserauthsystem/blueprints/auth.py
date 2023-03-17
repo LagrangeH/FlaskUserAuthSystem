@@ -2,7 +2,7 @@ from datetime import datetime
 
 import bcrypt
 from flask import Blueprint, request, session, redirect, render_template
-from flask_login import login_user
+from flask_login import login_user, current_user
 from loguru import logger as log
 
 from database import models, queries
@@ -19,8 +19,9 @@ def inject_form():
 
 @bp.route('/')
 def auth():
-    # TODO
-    return "Auth root page"
+    if current_user.is_authenticated:
+        return redirect('/')
+    return render_template('auth/signup.html')
 
 
 @bp.route('/signup', methods=['GET', 'POST'])
