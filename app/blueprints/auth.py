@@ -12,6 +12,11 @@ from utils.forms import RecaptchaForm
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
+@bp.context_processor
+def inject_form():
+    return dict(form=RecaptchaForm())
+
+
 @bp.route('/')
 def auth():
     # TODO
@@ -45,7 +50,7 @@ def signup(form=None):
     if form is None:
         form = RecaptchaForm()
 
-    return render_template('auth/signup.html', form=form)
+    return render_template('auth/signup.html')
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
@@ -58,7 +63,7 @@ def signin(form=None):
 
         if user is None:
             log.debug(f'User with email {request.form.get("email")} not found')
-            return render_template('auth/signin.html', email_raise=True, form=form)
+            return render_template('auth/signin.html', email_raise=True)
 
         elif bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
@@ -68,16 +73,16 @@ def signin(form=None):
 
         else:
             log.debug(f'Password for user {user} is incorrect')
-            return render_template('auth/signin.html', password_raise=True, form=form)
+            return render_template('auth/signin.html', password_raise=True)
 
-    return render_template('auth/signin.html', form=form)
+    return render_template('auth/signin.html')
 
 
 @bp.route('/reset-password')
 def reset_password(form=None):
     if form is None:
         form = RecaptchaForm()
-    return render_template('auth/reset_password.html', form=form)
+    return render_template('auth/reset_password.html')
 
 
 @bp.route('/restore-password', methods=['GET', 'POST'])
@@ -93,7 +98,7 @@ def restore_password(form=None):
     if request.method == 'POST':
         pass
 
-    return render_template('auth/reset_password.html', form=form)
+    return render_template('auth/reset_password.html')
 
 
 @bp.route('/signout')
