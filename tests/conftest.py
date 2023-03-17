@@ -1,14 +1,10 @@
-# import sys
-# from pathlib import Path
-# sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 import pytest
 from src.flaskuserauthsystem.app import create_app
 
 
 @pytest.fixture
 def app():
-    app = create_app()
+    app = create_app(debug=False)
     app.config['TESTING'] = True
     return app
 
