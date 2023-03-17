@@ -29,6 +29,7 @@ def signup():
     if request.method == 'POST':
         email_raises = queries.is_email_registered(request.form.get('email'))
         username_raise = queries.is_username_registered(request.form.get('username'))
+        log.debug(f'Email raises: {email_raises}, username raises: {username_raise}')
 
         if email_raises or username_raise:
             return render_template('auth/signup.html',

@@ -7,6 +7,7 @@ from loguru import logger as log
 
 from database import DB
 from database.models import User
+from database.queries import get_user_by_id
 from log_config import configure_logging
 
 
@@ -37,8 +38,7 @@ def create_app(debug: bool = False) -> Flask:
 
     @login_manager.user_loader
     def load_user(user_id: int) -> User | None:
-        print(f"User {user_id} loaded\n{User.query.get(user_id)}")
-        return User.query.get(user_id)
+        return get_user_by_id(user_id)
 
     # Blueprints registration
     from blueprints import main, auth
