@@ -17,6 +17,7 @@ flask-sqlalchemy = "^3.0.3"
 bcrypt = "^4.0.1"
 flask-login = "^0.6.2"
 flask-wtf = "^1.1.1"
+faker = "^17.6.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-flask = "^1.2.0"
