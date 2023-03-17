@@ -25,7 +25,7 @@ def auth():
 
 
 @bp.route('/signup', methods=['GET', 'POST'])
-def signup(form=None):
+def signup():
     if request.method == 'POST':
         email_raises = queries.is_email_registered(request.form.get('email'))
         username_raise = queries.is_username_registered(request.form.get('username'))
@@ -46,19 +46,13 @@ def signup(form=None):
 
         queries.create_user(new_user)
         login_user(new_user)
-        return render_template('index.html')
-
-    if form is None:
-        form = RecaptchaForm()
+        return redirect('/')
 
     return render_template('auth/signup.html')
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
-def signin(form=None):
-    if form is None:
-        form = RecaptchaForm()
-
+def signin():
     if request.method == 'POST':
         user = queries.get_user_by_email(request.form.get('email'))
 
@@ -80,22 +74,17 @@ def signin(form=None):
 
 
 @bp.route('/reset-password')
-def reset_password(form=None):
-    if form is None:
-        form = RecaptchaForm()
+def reset_password():
     return render_template('auth/reset_password.html')
 
 
 @bp.route('/restore-password', methods=['GET', 'POST'])
-def restore_password(form=None):
+def restore_password():
     """
     The form must be accessible by the hash generated
     after submitting the ``reset_password`` form.
     The hash link is sent to the specified email and is valid for some time
     """
-    if form is None:
-        form = RecaptchaForm()
-
     if request.method == 'POST':
         pass
 
