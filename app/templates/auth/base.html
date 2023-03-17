@@ -21,12 +21,12 @@
 
 					{% block form_fields %}{% endblock %}
 
-                    <p>
-                    {% for error in form.recaptcha.errors %}
-                            {{ error }}
-                    {% endfor %}
-                    {{ form.recaptcha }}
-                    </p>
+                    <div>
+                        {% for error in form.recaptcha.errors %}
+                                {{ error }}
+                        {% endfor %}
+                        {{ form.recaptcha }}
+                    </div>
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">

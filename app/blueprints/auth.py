@@ -6,7 +6,8 @@ from flask_login import login_user
 from loguru import logger as log
 
 from database import models, queries
-from forms import SignUpForm, SignInForm, ResetPasswordForm, RestorePasswordForm
+from utils.forms import RecaptchaForm
+
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -42,7 +43,7 @@ def signup(form=None):
         return render_template('index.html')
 
     if form is None:
-        form = SignUpForm()
+        form = RecaptchaForm()
 
     return render_template('auth/signup.html', form=form)
 
@@ -50,7 +51,7 @@ def signup(form=None):
 @bp.route('/signin', methods=['GET', 'POST'])
 def signin(form=None):
     if form is None:
-        form = SignInForm()
+        form = RecaptchaForm()
 
     if request.method == 'POST':
         user = queries.get_user_by_email(request.form.get('email'))
@@ -75,7 +76,7 @@ def signin(form=None):
 @bp.route('/reset-password')
 def reset_password(form=None):
     if form is None:
-        form = ResetPasswordForm()
+        form = RecaptchaForm()
     return render_template('auth/reset_password.html', form=form)
 
 
@@ -87,7 +88,7 @@ def restore_password(form=None):
     The hash link is sent to the specified email and is valid for some time
     """
     if form is None:
-        form = RestorePasswordForm()
+        form = RecaptchaForm()
 
     if request.method == 'POST':
         pass
