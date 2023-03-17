@@ -12,6 +12,8 @@
     <option name="namespacePackageFolders">
       <list>
         <option value="$MODULE_DIR$/src/flaskuserauthsystem/database" />
+        <option value="$MODULE_DIR$/src/flaskuserauthsystem/utils" />
+        <option value="$MODULE_DIR$/src/flaskuserauthsystem/blueprints" />
       </list>
     </option>
   </component>
@@ -19,7 +21,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/app/templates" />
+        <option value="$MODULE_DIR$/src/flaskuserauthsystem/templates" />
       </list>
     </option>
   </component>
