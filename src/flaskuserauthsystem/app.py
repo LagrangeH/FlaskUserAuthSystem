@@ -42,8 +42,8 @@ def create_app(debug: bool = False) -> Flask:
 
     # Blueprints registration
     from src.flaskuserauthsystem.blueprints import main, auth
-    main.bp.register_blueprint(auth.bp)
     app.register_blueprint(main.bp)
+    app.register_blueprint(auth.bp)
 
     # Database creation
     from src.flaskuserauthsystem.database import models
