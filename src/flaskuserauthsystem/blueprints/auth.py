@@ -59,7 +59,7 @@ def signin():
 
         if user is None:
             log.debug(f'User with email {request.form.get("email")} not found')
-            return render_template('auth/signin.html', email_raise=True)
+            return render_template('auth/signin.html', error=True)
 
         elif bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
@@ -69,7 +69,7 @@ def signin():
 
         else:
             log.debug(f'Password for user {user} is incorrect')
-            return render_template('auth/signin.html', password_raise=True)
+            return render_template('auth/signin.html', error=True)
 
     return render_template('auth/signin.html')
 

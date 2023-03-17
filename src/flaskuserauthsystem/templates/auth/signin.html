@@ -9,6 +9,15 @@
 {% endblock %}
 
 {% block form_fields %}
+    {% if email_raise %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Invalid email or password</strong>
+            <p>
+                Try <a href="auth/reset-password">reset your password</a>.
+            </p>
+        </div>
+    {% endif %}
+
     {% include 'auth/form_fields/email.html' %}
     {% include 'auth/form_fields/password.html' %}
 {% endblock %}
