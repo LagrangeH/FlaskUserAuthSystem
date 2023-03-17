@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Flask (app/app.py)" type="Python.FlaskServer" nameIsGenerated="true">
+  <configuration default="false" name="Flask (src/flaskuserauthsystem/app.py)" type="Python.FlaskServer" nameIsGenerated="true">
     <option name="flaskDebug" value="true" />
     <log_file alias="app/logs/flask.log" path="app/logs/flask.log" />
     <module name="FlaskUserAuthSystem" />
-    <option name="target" value="$PROJECT_DIR$/app/app.py" />
+    <option name="target" value="$PROJECT_DIR$/src/flaskuserauthsystem/app.py" />
     <option name="targetType" value="PATH" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

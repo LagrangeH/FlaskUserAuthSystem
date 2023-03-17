@@ -7,7 +7,6 @@ from loguru import logger as log
 
 from database import DB
 from database.models import User
-from database.queries import get_user_by_id
 from log_config import configure_logging
 
 
