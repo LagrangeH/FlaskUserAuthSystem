@@ -14,7 +14,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.context_processor
 def inject_form():
-    return dict(form=RecaptchaForm())
+    return {"form": RecaptchaForm()}
 
 
 @bp.route('/')
@@ -61,15 +61,14 @@ def signin():
             log.debug(f'User with email {request.form.get("email")} not found')
             return render_template('auth/signin.html', error=True)
 
-        elif bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
+        if bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
             session['user_id'] = user.id
             login_user(user)
             return redirect('/')
 
-        else:
-            log.debug(f'Password for user {user} is incorrect')
-            return render_template('auth/signin.html', error=True)
+        log.debug(f'Password for user {user} is incorrect')
+        return render_template('auth/signin.html', error=True)
 
     return render_template('auth/signin.html')
 
