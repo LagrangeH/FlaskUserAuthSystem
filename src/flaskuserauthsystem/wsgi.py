@@ -1,4 +1,4 @@
-from app import create_app
+from src.flaskuserauthsystem.app import create_app
 
 
 if __name__ == '__main__':

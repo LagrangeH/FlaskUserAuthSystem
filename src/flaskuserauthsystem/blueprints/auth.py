@@ -36,7 +36,8 @@ def signup():
                                    email_raises=email_raises,
                                    username_raise=username_raise)
 
-        password_hash = bcrypt.hashpw(request.form.get('password').encode('utf-8'), bcrypt.gensalt())
+        password_hash = bcrypt.hashpw(request.form.get('password').encode('utf-8'),
+                                      bcrypt.gensalt())
 
         new_user = models.User(
             username=request.form.get('username'),
