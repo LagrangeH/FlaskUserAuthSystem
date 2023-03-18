@@ -34,7 +34,7 @@ def create_app(debug: bool = False) -> Flask:
     login_manager.login_view = 'signin'
 
     # CSRF protection initialization
-    csrf = CSRFProtect(app)
+    CSRFProtect(app)
 
     @login_manager.user_loader
     def load_user(user_id: int) -> User | None:
