@@ -4,11 +4,11 @@ from src.flaskuserauthsystem.app import create_app
 
 @pytest.fixture
 def app():
-    app = create_app(debug=False)
-    app.config['TESTING'] = True
-    return app
+    application = create_app(debug=False)
+    application.config['TESTING'] = True
+    return application
 
 
 @pytest.fixture
-def client(app):
-    return app.test_client()
+def client(application):
+    return application.test_client()

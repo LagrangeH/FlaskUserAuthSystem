@@ -46,7 +46,6 @@ def create_app(debug: bool = False) -> Flask:
     app.register_blueprint(auth.bp)
 
     # Database creation
-    from src.flaskuserauthsystem.database import models
     DB.obj.create_all()
 
     log.debug(f"App created with debug={debug}")
