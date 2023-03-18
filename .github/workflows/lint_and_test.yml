@@ -1,0 +1,20 @@
+name: Python Lint and Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pylint:
+    steps:
+      - name: Setup Poetry
+        uses: ./.github/workflows/setup_poetry
+      - name: Run pylint
+        run: poetry run pylint --disable=missing-docstring,redefined-outer-name $(git ls-files '*.py')
+
+  pytest:
+    steps:
+      - name: Setup Poetry
+        uses: ./.github/workflows/setup_poetry
+      - name: Run pytest
+        run: poetry run pytest . -v
