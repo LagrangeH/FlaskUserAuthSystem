@@ -17,13 +17,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Poetry
-      run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        source $HOME/.poetry/env
-        poetry install --only dev
+      run: curl -sSL https://install.python-poetry.org | python3 -
+    - name: Configure Poetry
+      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+    - name: Get Poetry version
+      run: poetry --version
+    - name: Install dependencies
+      run: poetry install --only dev
     - name: Run pylint
-      run: |
-        poetry run pylint $(git ls-files '*.py')
+      run: poetry run pylint $(git ls-files '*.py')
     - name: Run pytest
-      run: |
-        poetry run pytest .
+      run: poetry run pytest . -v
