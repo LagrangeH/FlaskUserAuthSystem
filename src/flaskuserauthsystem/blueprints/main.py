@@ -19,4 +19,3 @@ def handle_csrf_error(e):
 @bp.route('/')
 def about():
     return render_template('index.html')
-
