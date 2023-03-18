@@ -8,6 +8,7 @@ jobs:
   pylint:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Setup Poetry
         uses: ./.github/workflows/setup_poetry
       - name: Run pylint
@@ -16,6 +17,7 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Setup Poetry
         uses: ./.github/workflows/setup_poetry
       - name: Run pytest
