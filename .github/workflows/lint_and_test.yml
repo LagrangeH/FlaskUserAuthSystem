@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup Poetry
-        uses: ./.github/workflows/setup_poetry.yml
+        uses: ./.github/actions/setup_poetry.yml
       - name: Run pylint
         run: poetry run pylint --disable=missing-docstring,redefined-outer-name $(git ls-files '*.py')
 
@@ -19,6 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup Poetry
-        uses: ./.github/workflows/setup_poetry.yml
+        uses: ./.github/actions/setup_poetry.yml
       - name: Run pytest
         run: poetry run pytest . -v
