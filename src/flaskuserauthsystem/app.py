@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 from loguru import logger as log
 
+from src.flaskuserauthsystem.blueprints import main, auth
 from src.flaskuserauthsystem.database import DB
 from src.flaskuserauthsystem.database.models import User
 from src.flaskuserauthsystem.database.queries import get_user_by_id
@@ -41,7 +42,6 @@ def create_app(debug: bool = False) -> Flask:
         return get_user_by_id(user_id)
 
     # Blueprints registration
-    from src.flaskuserauthsystem.blueprints import main, auth
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
 
