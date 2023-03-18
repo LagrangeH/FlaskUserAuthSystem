@@ -6,6 +6,7 @@ on:
 
 jobs:
   pylint:
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Poetry
         uses: ./.github/workflows/setup_poetry
@@ -13,6 +14,7 @@ jobs:
         run: poetry run pylint --disable=missing-docstring,redefined-outer-name $(git ls-files '*.py')
 
   pytest:
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Poetry
         uses: ./.github/workflows/setup_poetry
