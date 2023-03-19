@@ -1,0 +1,32 @@
+name: Deploy to Timeweb
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+    - name: Install Poetry
+      run: curl -sSL https://install.python-poetry.org | python3 -
+    - name: Configure Poetry
+      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+    - name: Get Poetry version
+      run: poetry --version
+    - name: Install dependencies
+      run: poetry install --with dev
+    - name: Deploy to Timeweb
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.TIMWEB_HOST }}
+        username: ${{ secrets.TIMWEB_USERNAME }}
+        key: ${{ secrets.TIMWEB_KEY }}
+        source: '.'
+        target: '/var/www/FlaskUserAuthSystem'
