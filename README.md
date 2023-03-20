@@ -13,24 +13,40 @@
 
 To set up the application, you need to have [Python 3.11](https://www.python.org/downloads/) and [Poetry](https://python-poetry.org/docs/#installation) installed on your system.
 
-After installing Python and Poetry, you need to clone the repository.
+After installing Python and Poetry, you need to **clone the repository**.
 
 ```bash
 git clone https://github.com/LagrangeH/FlaskUserAuthSystem.git
 ```
 
-After cloning the repository, you need to create virtual environment.
+After cloning the repository, you need to **create `.env`-file** and **pass the environment variables**.
+
+```bash
+cp src/flaskuserauthsystem/.env.dist src/flaskuserauthsystem/.env
+```
+
+Then pass these environment variables to `.env`-file.
+
+```dotenv
+FLASK_DEBUG=false
+FLASK_TEST=false
+SQLALCHEMY_DATABASE_URI=sqlite:///main.db
+RECAPTCHA_PUBLIC_KEY=
+RECAPTCHA_PRIVATE_KEY=
+```
+
+After passing environment variables, you need to **create virtual environment**.
 
 ```bash
 poetry env use python3.11
 ```
-After creating the virtual environment, you need to install the dependencies.
+After creating the virtual environment, you need to **install the dependencies**.
 
 ```bash
 poetry install
 ```
 
-After installing the dependencies, you need to run the application.
+After installing the dependencies, you need to **run the application**.
 
 ```bash
 poetry run flask run
