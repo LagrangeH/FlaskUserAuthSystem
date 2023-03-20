@@ -35,7 +35,8 @@ def create_app(debug: bool = False) -> Flask:
     def load_user(user_id: int) -> User | None:
         return get_user_by_id(user_id)
 
-    from src.flaskuserauthsystem.blueprints import main, auth
+    from src.flaskuserauthsystem.blueprints import main, auth, errors
+    app.register_blueprint(errors.bp)
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
 

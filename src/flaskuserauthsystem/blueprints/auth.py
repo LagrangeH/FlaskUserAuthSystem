@@ -1,21 +1,13 @@
-from datetime import datetime
-
 import bcrypt
 from flask import Blueprint, request, session, redirect, render_template
 from flask_login import login_user, current_user
-from flask_wtf import form
-from flask_wtf.csrf import CSRFError
 from loguru import logger as log
 
 from src.flaskuserauthsystem.database import models, queries
 from src.flaskuserauthsystem.utils.forms import RecaptchaForm
 
+
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-
-@bp.errorhandler(CSRFError)
-def handle_csrf_error(error):
-    return render_template('errors/csrf.html', reason=error.description), 400
 
 
 @bp.route('/')
