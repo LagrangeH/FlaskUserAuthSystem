@@ -15,25 +15,29 @@
 
                     {{ form.csrf_token }}
 
-					<span class="login100-form-title p-b-26">
+                    <span class="login100-form-title p-b-26">
 						{% block form_title %}{% endblock %}
 					</span>
+
+                    {% for error in form.recaptcha.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            Pass reCAPTCHA
+                        </div>
+                    {% endfor %}
 
 					{% block form_fields %}{% endblock %}
 
                     <div>
-                        {% for error in form.recaptcha.errors %}
-                                {{ error }}
-                        {% endfor %}
                         {{ form.recaptcha }}
                     </div>
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
-								{% block button_title %}{% endblock %}
-							</button>
+                            <button class="login100-form-btn">
+                                <input type="submit" class="bg-transparent" value="">
+                                {% block button_title %}{% endblock %}
+                            </button>
 						</div>
 					</div>
 

@@ -3,18 +3,19 @@ from datetime import datetime
 import bcrypt
 from flask import Blueprint, request, session, redirect, render_template
 from flask_login import login_user, current_user
+from flask_wtf import form
+from flask_wtf.csrf import CSRFError
 from loguru import logger as log
 
 from src.flaskuserauthsystem.database import models, queries
 from src.flaskuserauthsystem.utils.forms import RecaptchaForm
 
-
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
-@bp.context_processor
-def inject_form():
-    return {"form": RecaptchaForm()}
+@bp.errorhandler(CSRFError)
+def handle_csrf_error(error):
+    return render_template('errors/csrf.html', reason=error.description), 400
 
 
 @bp.route('/')
@@ -25,32 +26,38 @@ def auth():
 
 
 @bp.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
+def signup(recaptcha_form=None):
+    if recaptcha_form is None:
+        recaptcha_form = RecaptchaForm()
+
+    if recaptcha_form.validate_on_submit():
         email_raises = queries.is_email_registered(request.form.get('email'))
         username_raise = queries.is_username_registered(request.form.get('username'))
-        log.debug(f'Email raises: {email_raises}, username raises: {username_raise}')
 
         if email_raises or username_raise:
-            return render_template('auth/signup.html',
-                                   email_raises=email_raises,
-                                   username_raise=username_raise)
+            return render_template(
+                'auth/signup.html',
+                email_raises=email_raises,
+                username_raise=username_raise,
+                form=recaptcha_form
+            )
 
-        password_hash = bcrypt.hashpw(request.form.get('password').encode('utf-8'),
-                                      bcrypt.gensalt())
+        password_hash = bcrypt.hashpw(
+            request.form.get('password').encode('utf-8'),
+            bcrypt.gensalt()
+        )
 
         new_user = models.User(
             username=request.form.get('username'),
             email=request.form.get('email'),
             password_hash=password_hash,
-            registration_date=datetime.utcnow(),
         )
 
         queries.create_user(new_user)
         login_user(new_user)
         return redirect('/')
 
-    return render_template('auth/signup.html')
+    return render_template('auth/signup.html', form=recaptcha_form)
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
