@@ -14,15 +14,15 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 def auth():
     if current_user.is_authenticated:
         return redirect('/')
-    return render_template('auth/signup.html')
+    return redirect('/auth/signup')
 
 
 @bp.route('/signup', methods=['GET', 'POST'])
-def signup(recaptcha_form=None):
-    if recaptcha_form is None:
-        recaptcha_form = RecaptchaForm()
+def signup(form=None):
+    if form is None:
+        form = RecaptchaForm()
 
-    if recaptcha_form.validate_on_submit():
+    if form.validate_on_submit():
         email_raises = queries.is_email_registered(request.form.get('email'))
         username_raise = queries.is_username_registered(request.form.get('username'))
 
@@ -31,7 +31,7 @@ def signup(recaptcha_form=None):
                 'auth/signup.html',
                 email_raises=email_raises,
                 username_raise=username_raise,
-                form=recaptcha_form
+                form=form
             )
 
         password_hash = bcrypt.hashpw(
@@ -49,17 +49,20 @@ def signup(recaptcha_form=None):
         login_user(new_user)
         return redirect('/')
 
-    return render_template('auth/signup.html', form=recaptcha_form)
+    return render_template('auth/signup.html', form=form)
 
 
 @bp.route('/signin', methods=['GET', 'POST'])
-def signin():
-    if request.method == 'POST':
+def signin(form=None):
+    if form is None:
+        form = RecaptchaForm()
+
+    if form.validate_on_submit():
         user = queries.get_user_by_email(request.form.get('email'))
 
         if user is None:
             log.debug(f'User with email {request.form.get("email")} not found')
-            return render_template('auth/signin.html', error=True)
+            return render_template('auth/signin.html', error=True, form=form)
 
         if bcrypt.checkpw(request.form.get('password').encode('utf-8'), user.password_hash):
             session.clear()
@@ -68,27 +71,36 @@ def signin():
             return redirect('/')
 
         log.debug(f'Password for user {user} is incorrect')
-        return render_template('auth/signin.html', error=True)
+        return render_template('auth/signin.html', error=True, form=form)
 
-    return render_template('auth/signin.html')
+    return render_template('auth/signin.html', form=form)
 
 
 @bp.route('/reset-password')
-def reset_password():
-    return render_template('auth/reset_password.html')
+def reset_password(form=None):
+    if form is None:
+        form = RecaptchaForm()
+
+    if form.validate_on_submit():
+        pass    # TODO: send email with hash link
+
+    return render_template('auth/reset_password.html', form=form)
 
 
 @bp.route('/restore-password', methods=['GET', 'POST'])
-def restore_password():
+def restore_password(form=None):
     """
     The form must be accessible by the hash generated
     after submitting the ``reset_password`` form.
     The hash link is sent to the specified email and is valid for some time
     """
-    if request.method == 'POST':
-        pass
+    if form is None:
+        form = RecaptchaForm()
 
-    return render_template('auth/reset_password.html')
+    if form.validate_on_submit():
+        pass    # TODO: complete the view
+
+    return render_template('auth/reset_password.html', form=form)
 
 
 @bp.route('/signout')
