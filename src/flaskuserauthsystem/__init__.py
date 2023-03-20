@@ -12,17 +12,12 @@ login_manager = LoginManager()
 csrf = CSRFProtect()
 
 
-def create_app(debug: bool = False) -> Flask:
-    from src.flaskuserauthsystem.log_config import configure_logging
-    configure_logging(debug=debug)
-
+def create_app() -> Flask:
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///main.db'
-    app.config['RECAPTCHA_PUBLIC_KEY'] = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-    app.config['RECAPTCHA_PRIVATE_KEY'] = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
-    app.config['WTF_CSRF_SECRET_KEY'] = secrets.token_hex()
-    app.secret_key = secrets.token_hex()
-    app.debug = debug
+    app.config.from_object('config')
+
+    from src.flaskuserauthsystem.log_config import configure_logging
+    configure_logging(debug=app.config['DEBUG'])
 
     db.init_app(app)
     login_manager.init_app(app)
@@ -42,5 +37,4 @@ def create_app(debug: bool = False) -> Flask:
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
 
-    log.debug(f"App created with debug={debug}")
     return app

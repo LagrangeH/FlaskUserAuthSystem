@@ -2,4 +2,4 @@ from src.flaskuserauthsystem.app import create_app
 
 
 if __name__ == '__main__':
-    create_app(debug=False).run()
+    create_app().run()
