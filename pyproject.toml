@@ -19,6 +19,7 @@ flask-login = "^0.6.2"
 flask-wtf = "^1.1.1"
 faker = "^17.6.0"
 flake8 = "^6.0.0"
+environs = "^9.5.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-flask = "^1.2.0"
