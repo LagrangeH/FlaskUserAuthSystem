@@ -2,15 +2,15 @@ from datetime import datetime
 
 from flask_login import UserMixin
 
-from . import DB
+from src.flaskuserauthsystem import db
 
 
-class User(UserMixin, DB.obj.Model):
-    id = DB.obj.Column(DB.obj.Integer, primary_key=True)
-    username = DB.obj.Column(DB.obj.String(80), unique=True, nullable=False)
-    email = DB.obj.Column(DB.obj.String(120), unique=True, nullable=False)
-    password_hash = DB.obj.Column(DB.obj.String(128), nullable=False)
-    registration_date = DB.obj.Column(DB.obj.DateTime, nullable=False, default=datetime.utcnow)
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    registration_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return f'<User {self.username!r}>'
