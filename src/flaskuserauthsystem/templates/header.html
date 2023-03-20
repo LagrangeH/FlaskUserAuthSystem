@@ -6,6 +6,7 @@
                     <ul class="navbar-nav m-auto">
                         <li class="p-r-20 p-l-20"><a href="/" class="nav-link txt2">Home</a></li>
                         {% if current_user.is_authenticated %}
+                            <li class="p-r-20 p-l-20"><a href="/profile" class="nav-link txt2">Profile</a></li>
                             <li class="p-r-20 p-l-20"><a href="/auth/signout" class="nav-link txt2">Sign out</a></li>
                         {% else %}
                             <li class="p-r-20 p-l-20"><a href="/auth/signup" class="nav-link txt2">Sign Up</a></li>

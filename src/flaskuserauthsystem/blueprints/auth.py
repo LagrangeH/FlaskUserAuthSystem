@@ -47,7 +47,7 @@ def signup(form=None):
 
         queries.create_user(new_user)
         login_user(new_user)
-        return redirect('/')
+        return redirect('/profile')
 
     return render_template('auth/signup.html', form=form)
 
