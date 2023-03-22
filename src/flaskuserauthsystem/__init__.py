@@ -14,7 +14,8 @@ csrf = CSRFProtect()
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.config.from_object('config')
+    from src.flaskuserauthsystem import config
+    app.config.from_object(config)
 
     from src.flaskuserauthsystem.log_config import configure_logging
     configure_logging(debug=app.config['DEBUG'])

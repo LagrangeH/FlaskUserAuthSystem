@@ -1,13 +1,24 @@
 import secrets
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 from environs import Env
 from loguru import logger as log
 
-env = Env()
-env.read_env(path=str(Path("envs/.env").resolve()))
 
+env = Env()
+
+for i in Path.cwd().glob('envs/*.env'):
+    if i.name == '.env':
+        path = i
+        break
+else:
+    log.error("No .env file found")
+    sys.exit(1)
+
+log.debug(f"Loading environment from {path}")
+env.read_env(path=str(path))
 
 DEBUG: bool = env.bool("FLASK_DEBUG", default=False)
 FLASK_TEST: bool = env.bool("FLASK_TEST", default=False)
