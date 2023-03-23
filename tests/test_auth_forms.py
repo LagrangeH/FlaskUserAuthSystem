@@ -69,11 +69,22 @@ def test_signup_username_already_registered(client, app):
     assert response.location is None
 
 
-# def test_signup_password_not_matching(client, app):
-#     app.config['WTF_CSRF_ENABLED'] = False
-#     pass
-#
-#
+def test_signup_password_mismatch(client, app):
+    app.config['WTF_CSRF_ENABLED'] = False
+    fake_password = fake.password()
+    fake_confirm_password = fake_password + 'a'
+
+    response = client.post('/auth/signup', data={
+        'username': fake.user_name(),
+        'email': fake.email(),
+        'password': fake_password,
+        'confirm_password': fake_confirm_password,
+    })
+
+    assert response.status_code == 200
+    assert response.location is None
+
+
 # def test_signup_password_too_short(client, app):
 #     app.config['WTF_CSRF_ENABLED'] = False
 #     pass    # TODO: add test

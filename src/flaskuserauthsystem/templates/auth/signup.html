@@ -9,6 +9,16 @@
 {% endblock %}
 
 {% block form_fields %}
+    {% if password_mismatch %}
+        <div class="alert alert-danger" role="alert">
+            <div class="alert-heading">
+                Password mismatch.
+            </div>
+            <p>
+                Check your password and confirm password.
+            </p>
+        </div>
+    {% endif %}
     {% if email_raises or username_raise %}
         <div class="alert alert-danger" role="alert">
             <div class="alert-heading">

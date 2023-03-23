@@ -23,6 +23,14 @@ def signup(form=None):
         form = RecaptchaForm()
 
     if form.validate_on_submit():
+        if request.form.get('password') != request.form.get('confirm_password'):
+            log.debug('Passwords do not match')
+            return render_template(
+                'auth/signup.html',
+                password_mismatch=True,
+                form=form,
+            )
+
         email_raises = queries.is_email_registered(request.form.get('email'))
         username_raise = queries.is_username_registered(request.form.get('username'))
 
@@ -31,7 +39,7 @@ def signup(form=None):
                 'auth/signup.html',
                 email_raises=email_raises,
                 username_raise=username_raise,
-                form=form
+                form=form,
             )
 
         password_hash = bcrypt.hashpw(
