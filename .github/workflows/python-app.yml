@@ -35,7 +35,7 @@ jobs:
       uses: canastro/copy-action@master
       with:
           source: ".env.dist"
-          destination: ".env"
+          target: ".env"
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
