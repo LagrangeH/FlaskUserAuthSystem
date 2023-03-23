@@ -1,6 +1,6 @@
-def test_auth(client):
+def test_auth_redirect(client):
     response = client.get('/auth')
-    assert response.status_code in (302, 308)
+    assert response.status_code == 308
 
 
 def test_signup(client):
@@ -23,6 +23,7 @@ def test_restore_password(client):
     assert response.status_code == 200
 
 
-def test_signout(client):
+def test_signout_redirect(client):
     response = client.get('/auth/signout')
     assert response.status_code == 302
+    assert response.location == '/'

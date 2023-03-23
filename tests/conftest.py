@@ -1,4 +1,5 @@
 import os
+import secrets
 from pathlib import Path
 
 import pytest
@@ -16,9 +17,14 @@ def app():
 
     app = create_app()
     app.config['TESTING'] = True
-    return app
+    yield app
 
 
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+
+@pytest.fixture
+def runner(app):
+    return app.test_cli_runner()
