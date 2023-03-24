@@ -1,5 +1,4 @@
 import sys
-from datetime import datetime
 
 from loguru import logger as log
 
@@ -18,7 +17,7 @@ def configure_logging(debug: bool = False) -> None:
     )
 
     log.add(
-        f'logs/error_{datetime.utcnow()}.log',
+        'logs/err_{time:DD-MMM_HH:mm:ss.S}.log',
         level='ERROR',
         colorize=False,
         backtrace=debug,
@@ -29,12 +28,11 @@ def configure_logging(debug: bool = False) -> None:
         rotation='100 MB',
         retention='1 months',
         compression='zip',
-
     )
 
     if debug:
         log.add(
-            f'logs/debug_{datetime.utcnow()}.log',
+            'logs/deb_{time:DD-MMM_HH:mm:ss.S}.log',
             level='DEBUG',
             colorize=False,
             backtrace=True,
@@ -42,4 +40,5 @@ def configure_logging(debug: bool = False) -> None:
             enqueue=True,
             catch=True,
             delay=True,
+            retention='3 days',
         )

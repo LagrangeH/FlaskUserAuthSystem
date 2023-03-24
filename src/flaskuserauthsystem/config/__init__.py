@@ -7,14 +7,12 @@ from loguru import logger as log
 
 env = Env()
 
-log.debug(Path.cwd())
 for i in Path.cwd().glob('envs/*.env'):
     if i.name == '.env':
         path = i
         break
 else:
-    log.error("No .env file found")
+    log.error("No .env file found in envs/")
     sys.exit(1)
 
-log.debug(f"Loading environment from {path}")
 env.read_env(path=str(path))
