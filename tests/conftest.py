@@ -1,5 +1,4 @@
 import os
-import secrets
 from pathlib import Path
 
 import pytest
@@ -11,13 +10,16 @@ from loguru import logger as log
 @pytest.fixture
 def app():
     # Without this, tests will return an ImportError
+    log.critical(Path.cwd())
     for path in Path.cwd().glob('src/*'):
         os.chdir(path)
         break
 
-    app = create_app()
-    app.config['TESTING'] = True
-    yield app
+    _app = create_app(testing=True)
+
+    yield _app
+
+    os.remove('../../instance/test.db')
 
 
 @pytest.fixture

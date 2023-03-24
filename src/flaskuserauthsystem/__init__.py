@@ -1,23 +1,23 @@
-import secrets
-
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
-from loguru import logger as log
-
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 csrf = CSRFProtect()
 
 
-def create_app() -> Flask:
+def create_app(testing: bool = False) -> Flask:
     app = Flask(__name__)
-    from src.flaskuserauthsystem import config
+    if testing:
+        from src.flaskuserauthsystem.config import app_test_config as config
+    else:
+        from src.flaskuserauthsystem.config import app_config as config
+
     app.config.from_object(config)
 
-    from src.flaskuserauthsystem.log_config import configure_logging
+    from src.flaskuserauthsystem.config.log_config import configure_logging
     configure_logging(debug=app.config['DEBUG'])
 
     db.init_app(app)
