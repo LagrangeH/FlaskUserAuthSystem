@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from loguru import logger as log
@@ -6,8 +7,16 @@ from loguru import logger as log
 def configure_logging(debug: bool = False) -> None:
     log.remove()
 
+    class InterceptHandler(logging.Handler):
+        def emit(self, record):
+            logger_opt = log.opt(depth=6, exception=record.exc_info)
+            logger_opt.log(record.levelname, record.getMessage())
+
+    # Create a logger object for the logging standard library
+    logging.basicConfig(handlers=[InterceptHandler()], level=logging.NOTSET)
+
     log.add(
-        sys.stdout,
+        logging.StreamHandler(),
         level='DEBUG' if debug else 'INFO',
         colorize=True,
         backtrace=debug,

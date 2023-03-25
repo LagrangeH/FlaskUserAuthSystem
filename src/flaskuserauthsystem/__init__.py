@@ -2,6 +2,8 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
+from loguru import logger as log
+
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -10,6 +12,8 @@ csrf = CSRFProtect()
 
 def create_app(testing: bool = False) -> Flask:
     app = Flask(__name__)
+
+    # Load the configuration from the instance folder
     if testing:
         from src.flaskuserauthsystem.config import app_test_config as config
     else:
@@ -17,9 +21,13 @@ def create_app(testing: bool = False) -> Flask:
 
     app.config.from_object(config)
 
+    # Disable standard Flask's logger that will be redirected to Loguru
+    app.logger.disabled = True
+
     from src.flaskuserauthsystem.config.log_config import configure_logging
     configure_logging(debug=app.config['DEBUG'])
 
+    # Initialize the extensions
     db.init_app(app)
     login_manager.init_app(app)
     csrf.init_app(app)
@@ -41,4 +49,5 @@ def create_app(testing: bool = False) -> Flask:
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
 
+    log.info('App created successfully')
     return app
