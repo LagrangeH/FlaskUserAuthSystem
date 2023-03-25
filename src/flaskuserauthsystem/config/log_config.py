@@ -3,7 +3,8 @@ import logging
 from loguru import logger as log
 
 
-def configure_logging(debug: bool = False) -> None:
+def configure_logging(debug: bool = False, testing: bool = False) -> None:
+    # Remove existing Loguru handlers
     log.remove()
 
     try:
@@ -34,7 +35,7 @@ def configure_logging(debug: bool = False) -> None:
     )
 
     log.add(
-        'logs/err_{time:DD-MMM_HH:mm:ss.S}.log',
+        'logs%s/{time:DD-MMM_HH:mm:ss.SSS}_err.log' % ('_test' if testing else ''),
         level='ERROR',
         colorize=False,
         backtrace=debug,
@@ -49,7 +50,7 @@ def configure_logging(debug: bool = False) -> None:
 
     if debug:
         log.add(
-            'logs/deb_{time:DD-MMM_HH:mm:ss.S}.log',
+            'logs%s/{time:DD-MMM_HH:mm:ss.SSS}_deb.log' % ('_test' if testing else ''),
             level='DEBUG',
             colorize=False,
             backtrace=True,
@@ -61,8 +62,8 @@ def configure_logging(debug: bool = False) -> None:
         )
 
         log.add(
-            'logs/with_static_{time:DD-MMM_HH:mm:ss.S}.log',
-            level='STATIC',
+            'logs%s/{time:DD-MMM_HH:mm:ss.SSS}_trace.log' % ('_test' if testing else ''),
+            level='TRACE',
             colorize=False,
             backtrace=True,
             diagnose=True,

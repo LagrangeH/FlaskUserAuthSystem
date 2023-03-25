@@ -32,7 +32,7 @@ def create_app(testing: bool = False) -> Flask:
     app.logger.disabled = True
 
     from src.flaskuserauthsystem.config.log_config import configure_logging
-    configure_logging(debug=app.config['DEBUG'])
+    configure_logging(debug=app.config['DEBUG'], testing=testing)
 
     # Initialize the extensions
     db.init_app(app)
@@ -53,5 +53,4 @@ def create_app(testing: bool = False) -> Flask:
 
     _register_blueprints(app)
 
-    log.info('App created successfully')
     return app

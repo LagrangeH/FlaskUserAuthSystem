@@ -10,7 +10,6 @@ from loguru import logger as log
 @pytest.fixture
 def app():
     # Without this, tests will return an ImportError
-    log.critical(Path.cwd())
     for path in Path.cwd().glob('src/*'):
         os.chdir(path)
         break
