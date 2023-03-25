@@ -5,7 +5,11 @@ from loguru import logger as log
 
 def configure_logging(debug: bool = False) -> None:
     log.remove()
-    log.level('STATIC', no=9, color='<blue><bold>')
+
+    try:
+        log.level('STATIC', no=9, color='<blue><bold>')
+    except TypeError:
+        log.debug('STATIC level already exists')
 
     class InterceptHandler(logging.Handler):
         def emit(self, record):
