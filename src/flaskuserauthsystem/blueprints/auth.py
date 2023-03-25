@@ -1,6 +1,6 @@
 import bcrypt
 from flask import Blueprint, request, session, redirect, render_template
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 from loguru import logger as log
 
 from src.flaskuserauthsystem.database import models, queries
@@ -113,5 +113,6 @@ def restore_password(form=None):
 
 @bp.route('/signout')
 def signout():
+    logout_user()
     session.clear()
     return redirect('/')
