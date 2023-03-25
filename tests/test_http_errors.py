@@ -1,6 +1,4 @@
-from faker import Faker
-
-fake = Faker()
+from tests import fake
 
 
 def test_404(client):

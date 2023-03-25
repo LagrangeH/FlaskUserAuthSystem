@@ -1,0 +1,29 @@
+import functools
+
+from faker import Faker
+from flask_login import login_user, logout_user
+
+from src.flaskuserauthsystem.database import queries
+from src.flaskuserauthsystem.database.models import User
+
+
+fake = Faker()
+
+
+def authorized_user(test_func: callable):
+    @functools.wraps(test_func)
+    def wrapper(client, *args, **kwargs):
+        with client:
+            user = User(
+                username=fake.user_name(),
+                email=fake.email(),
+                password_hash=fake.password(),
+            )
+
+            queries.create_user(user)
+            login_user(user)
+            test_result = test_func(client, *args, **kwargs)
+            logout_user()
+            return test_result
+
+    return wrapper

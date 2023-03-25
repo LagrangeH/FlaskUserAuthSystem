@@ -1,10 +1,6 @@
-from faker import Faker
-
 from src.flaskuserauthsystem.database.models import User
 from src.flaskuserauthsystem import db
-
-
-fake = Faker()
+from tests import fake
 
 
 def test_signup_successful(client, app):
