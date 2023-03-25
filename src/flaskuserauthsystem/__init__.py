@@ -10,6 +10,13 @@ login_manager = LoginManager()
 csrf = CSRFProtect()
 
 
+def _register_blueprints(app: Flask) -> None:
+    from src.flaskuserauthsystem.blueprints import main, auth, errors
+    app.register_blueprint(errors.bp)
+    app.register_blueprint(main.bp)
+    app.register_blueprint(auth.bp)
+
+
 def create_app(testing: bool = False) -> Flask:
     app = Flask(__name__)
 
@@ -44,10 +51,7 @@ def create_app(testing: bool = False) -> Flask:
     with app.app_context():
         db.create_all()
 
-    from src.flaskuserauthsystem.blueprints import main, auth, errors
-    app.register_blueprint(errors.bp)
-    app.register_blueprint(main.bp)
-    app.register_blueprint(auth.bp)
+    _register_blueprints(app)
 
     log.info('App created successfully')
     return app
