@@ -35,7 +35,7 @@ def configure_logging(debug: bool = False, testing: bool = False) -> None:
     )
 
     log.add(
-        'logs%s/{time:DD-MMM_HH:mm:ss.SSS}_err.log' % ('_test' if testing else ''),
+        'logs%s/{time:MMM-DD_HH:mm:ss.SSS}_err.log' % ('_test' if testing else ''),
         level='ERROR',
         colorize=False,
         backtrace=debug,
@@ -50,7 +50,7 @@ def configure_logging(debug: bool = False, testing: bool = False) -> None:
 
     if debug:
         log.add(
-            'logs%s/{time:DD-MMM_HH:mm:ss.SSS}_deb.log' % ('_test' if testing else ''),
+            'logs%s/{time:MMM-DD_HH:mm:ss.SSS}_deb.log' % ('_test' if testing else ''),
             level='DEBUG',
             colorize=False,
             backtrace=True,
@@ -62,7 +62,7 @@ def configure_logging(debug: bool = False, testing: bool = False) -> None:
         )
 
         log.add(
-            'logs%s/{time:DD-MMM_HH:mm:ss.SSS}_trace.log' % ('_test' if testing else ''),
+            'logs%s/{time:MMM-DD_HH:mm:ss.SSS}_trace.log' % ('_test' if testing else ''),
             level='TRACE',
             colorize=False,
             backtrace=True,
