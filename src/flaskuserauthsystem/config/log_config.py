@@ -9,7 +9,7 @@ def configure_logging(debug: bool = False) -> None:
 
     class InterceptHandler(logging.Handler):
         def emit(self, record):
-            logger_opt = log.opt(depth=6, exception=record.exc_info)
+            logger_opt = log.opt(depth=6, exception=record.exc_info, colors=True)
             logger_opt.log(record.levelname, record.getMessage())
 
     # Create a logger object for the logging standard library
