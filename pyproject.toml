@@ -18,13 +18,13 @@ bcrypt = "^4.0.1"
 flask-login = "^0.6.2"
 flask-wtf = "^1.1.1"
 faker = "^18.2.0"
-flake8 = "^6.0.0"
 environs = "^9.5.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest-flask = "^1.2.0"
 wrapt = "^1.15.0"
 dill = "^0.3.6"
+flake8 = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]
