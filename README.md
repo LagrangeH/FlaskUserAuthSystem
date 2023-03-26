@@ -19,6 +19,11 @@ After installing Python and Poetry, you need to **clone the repository**.
 git clone https://github.com/LagrangeH/FlaskUserAuthSystem.git
 ```
 
+After cloning the repository, you need to **change the directory**.
+```bash
+cd FlaskUserAuthSystem/
+```
+
 After cloning the repository, you need to **create `.env`-file** and **pass the environment variables**.
 
 ```bash
