@@ -30,7 +30,7 @@ After cloning the repository, you need to **create `.env`-file** and **pass the 
 cp src/flaskuserauthsystem/.env.dist src/flaskuserauthsystem/.env
 ```
 
-Then pass these environment variables to `.env`-file.
+Then pass these environment variables to `.env`-file in `src/flaskuserauthsystem/envs/`.
 
 ```dotenv
 FLASK_DEBUG=false
