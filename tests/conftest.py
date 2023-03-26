@@ -3,7 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from src.flaskuserauthsystem.app import create_app
+from src.flaskuserauthsystem import db
+from src.flaskuserauthsystem import create_app
 from loguru import logger as log
 
 
@@ -18,6 +19,10 @@ def app():
 
     yield _app
 
+    with _app.app_context():
+        db.drop_all()
+        db.session.commit()
+        db.session.close()
     os.remove('../../instance/test.db')
 
 

@@ -7,7 +7,6 @@ def test_404(client):
 
 
 def test_csrf_missing(client):
-
     fake_password = fake.password()
 
     response = client.post('/auth/signin', data={

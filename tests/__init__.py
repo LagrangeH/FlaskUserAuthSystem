@@ -1,7 +1,7 @@
 import functools
 
 from faker import Faker
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 
 from src.flaskuserauthsystem.database import queries
 from src.flaskuserauthsystem.database.models import User
@@ -23,7 +23,9 @@ def authorized_user(test_func: callable):
             queries.create_user(user)
             login_user(user)
             test_result = test_func(client, *args, **kwargs)
+            assert current_user.is_authenticated
             logout_user()
+            assert not current_user.is_authenticated
             return test_result
 
     return wrapper
