@@ -10,6 +10,7 @@ login_manager = LoginManager()
 csrf = CSRFProtect()
 
 
+@log.catch()
 def _register_blueprints(app: Flask) -> None:
     from src.flaskuserauthsystem.blueprints import main, auth, errors
     app.register_blueprint(errors.bp)
@@ -17,6 +18,7 @@ def _register_blueprints(app: Flask) -> None:
     app.register_blueprint(auth.bp)
 
 
+@log.catch()
 def create_app(testing: bool = False) -> Flask:
     app = Flask(__name__)
 
@@ -39,12 +41,12 @@ def create_app(testing: bool = False) -> Flask:
     login_manager.init_app(app)
     csrf.init_app(app)
 
-    from src.flaskuserauthsystem.database.models import User
-    from src.flaskuserauthsystem.database.queries import get_user_by_id
+    from src.flaskuserauthsystem.database.user import User
+    from src.flaskuserauthsystem.database.recovery_link import RecoveryLink
 
     @login_manager.user_loader
     def load_user(user_id: int) -> User | None:
-        return get_user_by_id(user_id)
+        return User.get_by_id(user_id)
 
     login_manager.login_view = 'auth.signin'
 

@@ -18,4 +18,3 @@ def test_csrf_missing(client):
 
     assert response.status_code == 400
     assert b"The CSRF token is missing" in response.data
-

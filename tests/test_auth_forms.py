@@ -1,4 +1,4 @@
-from src.flaskuserauthsystem.database.models import User
+from src.flaskuserauthsystem.database.user import User
 from src.flaskuserauthsystem import db
 from tests import fake
 
@@ -88,7 +88,7 @@ def test_signup_password_mismatch(client, app):
 #
 # def test_signup_password_too_long(client, app):
 #     app.config['WTF_CSRF_ENABLED'] = False
-#     pass    # TODO: add test
+#     pass    # TODO: add test!!!
 #
 #
 # def test_signup_password_no_uppercase(client, app):

@@ -5,7 +5,6 @@ import pytest
 
 from src.flaskuserauthsystem import db
 from src.flaskuserauthsystem import create_app
-from loguru import logger as log
 
 
 @pytest.fixture
@@ -23,7 +22,7 @@ def app():
         db.drop_all()
         db.session.commit()
         db.session.close()
-    os.remove('../../instance/test.db')
+    # os.remove('../../instance/test.db')
 
 
 @pytest.fixture

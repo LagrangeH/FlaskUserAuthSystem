@@ -18,9 +18,15 @@ def test_reset_password(client):
     assert response.status_code == 200
 
 
-def test_restore_password(client):
+def test_restore_password_without_token(client):
     response = client.get('/auth/restore-password')
-    assert response.status_code == 200
+    assert response.status_code == 404
+
+
+# TODO: Write test for restore-password with token
+# def test_restore_password_with_token(client):
+#     response = client.get('/auth/restore-password/123')
+#     assert response.status_code == 200
 
 
 def test_signout_redirect(client):
