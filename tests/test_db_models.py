@@ -30,7 +30,6 @@ def test_create_recovery_password(app):
     db_user = User.get_by_username(username)
 
     # Create a recovery password for the user
-    recovery_password_hash = fake.password()
     recovery_password = RecoveryLink(user_id=db_user.id)
     recovery_password.create()
     # db_recovery_password = RecoveryPassword.query.filter_by(user_id=db_user.id).first()
