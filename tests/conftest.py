@@ -22,7 +22,7 @@ def app():
         db.drop_all()
         db.session.commit()
         db.session.close()
-    # os.remove('../../instance/test.db')
+    os.remove('../../instance/test.db')
 
 
 @pytest.fixture
