@@ -1,5 +1,6 @@
 import secrets
 from datetime import datetime, timedelta
+from typing import Optional
 
 from loguru import logger as log
 
@@ -27,46 +28,102 @@ class RecoveryLink(db.Model):
         return self.id
 
     @log.catch()
-    def create(self):
-        db.session.add(self)
+    def update(self) -> None:
+        """
+        Update recovery link in database
+        :return:
+        """
         db.session.commit()
+        log.debug(f'{self} has been updated!')
+
+    @log.catch()
+    def create(self) -> None:
+        """
+        Create new recovery link in database
+        :return:
+        """
+        db.session.add(self)
+        self.update()
         log.debug(f'{self} has been created!')
 
     @log.catch()
-    def delete(self):
+    def delete(self) -> None:
+        """
+        Delete recovery link from database
+        :return:
+        """
         db.session.delete(self)
-        db.session.commit()
+        self.update()
         log.debug(f'{self} has been deleted!')
 
     @log.catch()
     def is_expired(self) -> bool:
+        """
+        Checks for link expiration based on time and number of `attempts`
+        :return:
+        """
         return datetime.utcnow() > self.creation_date + self.lifetime or self.attempts <= 0
 
     @log.catch()
-    def delete_if_expired(self):
-        if self.is_expired():
-            self.delete()
-
-    @log.catch()
-    def is_valid(self, password_hash) -> bool:
-        return check_password(self.password_hash, password_hash)
-
-    @log.catch()
-    def decrease_attempts(self):
+    def decrease_attempts(self) -> None:
+        """
+        Decrease `attempts` of recovery link
+        :return:
+        """
         self.attempts -= 1
-        db.session.commit()
+        self.update()
+
+    @log.catch()
+    def use_link(self) -> None:
+        """
+        Delete recovery link if it is expired or decrease attempts
+        :return:
+        """
+        if self is None:
+            return None
+        if self.is_expired():
+            return self.delete()
+        self.decrease_attempts()
 
     @classmethod
     @log.catch()
-    def get_by_link_token(cls, link_token, /):
-        return db.session.query(RecoveryLink).filter_by(link_token=link_token).first()
+    def _get_first(cls, **kwargs) -> Optional['RecoveryLink']:
+        """
+        Get the first recovery link from the database by the given parameter[s]
+        :param kwargs: Parameters to filter by
+        :return: RecoveryLink object or None
+        """
+        link: RecoveryLink | None = db.session.query(RecoveryLink).filter_by(**kwargs).first()
+        if link is not None:
+            link.use_link()
+        return link
 
     @classmethod
     @log.catch()
-    def get_all_by_user_id(cls, user_id, /):
+    def get_by_id(cls, _id: int, /) -> Optional['RecoveryLink']:
+        """
+        Get recovery link by id
+        :param _id:
+        :return:
+        """
+        return cls._get(id=_id)
+
+    @classmethod
+    @log.catch()
+    def get_by_link_token(cls, link_token: str, /) -> Optional['RecoveryLink']:
+        """
+        Get recovery link by token
+        :param link_token:
+        :return: RecoveryLink object or None
+        """
+        return cls._get(link_token=link_token)
+
+    @classmethod
+    @log.catch()
+    def get_all_by_user_id(cls, user_id: int, /) -> list[Optional['RecoveryLink']]:
+        """
+        Get all recovery links for some user by user id
+        :param user_id:
+        :return: List of RecoveryLink objects
+        """
         return db.session.query(RecoveryLink).filter_by(user_id=user_id).all()
-
-    @classmethod
-    @log.catch()
-    def get_by_id(cls, _id, /):
-        return db.session.query(RecoveryLink).filter_by(id=_id).first()

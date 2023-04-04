@@ -120,8 +120,8 @@ def reset_password(form=None):
     return render_template('auth/reset_password.html', form=form)
 
 
-@bp.route('/restore-password/<string:token>', methods=['GET', 'POST'])
-def restore_password(token, form=None):
+@bp.route('/recover-password/<string:token>', methods=['GET', 'POST'])
+def recover_password(token, form=None):
     """
     The form must be accessible by the hash generated
     after submitting the ``reset_password`` form.
@@ -130,12 +130,41 @@ def restore_password(token, form=None):
     if form is None:
         form = RecaptchaForm()
 
+    recovery_link: RecoveryLink = RecoveryLink.get_by_link_token(token)
+
+    if recovery_link is None:
+        log.debug(f'Recovery link with token {token} not found or expired')
+        # TODO: Add alert for user
+        return redirect('/auth/reset-password')
+
+    user = User.get_by_id(recovery_link.user_id)
+
+    if user is None:
+        log.debug(f'User with id {recovery_link.user_id} not found')
+        recovery_link.delete()
+        # TODO: Add alert for user
+        return redirect('/auth/signup')
+
     if form.validate_on_submit():
-        # TODO
-        log.debug('TODO')
+        if request.form.get('password') != request.form.get('confirm_password'):
+            log.debug('Passwords mismatch')
+            return render_template(
+                'auth/recover_password.html',
+                password_mismatch=True,
+                form=form,
+            )
+
+        user.password_hash = hash_password(request.form.get('password'))
+        user.update()
+        recovery_link.delete()
+
+        for link in RecoveryLink.get_all_by_user_id(user.id):
+            link.delete()
+
+        log.success("Password reset successfully")
         render_template('auth/signin.html', form=form)
 
-    return render_template('auth/restore_password.html', form=form)
+    return render_template('auth/recover_password.html', form=form)
 
 
 @bp.route('/signout')

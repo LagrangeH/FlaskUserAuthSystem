@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from flask_login import UserMixin
 from loguru import logger as log
@@ -26,42 +27,64 @@ class User(UserMixin, db.Model):
         return self.id
 
     @log.catch()
-    def create(self):
-        db.session.add(self)
+    def update(self) -> None:
+        """
+        Update user in database
+        :return:
+        """
         db.session.commit()
+        log.debug(f'{self} has been updated!')
+
+    @log.catch()
+    def create(self) -> None:
+        """
+        Create user in database
+        :return:
+        """
+        db.session.add(self)
+        self.update()
         log.debug(f'User <{self}> has been registered!')
 
     @log.catch()
-    def delete(self):
+    def delete(self) -> None:
+        """
+        Delete user from database
+        :return:
+        """
         db.session.delete(self)
-        db.session.commit()
+        self.update()
         log.debug(f'User <{self}> has been deleted!')
 
     @classmethod
     @log.catch()
-    def is_username_registered(cls, username, /) -> bool:
+    def is_username_registered(cls, username: str, /) -> bool:
+        """
+        Checks if the username exists in the `user` db table
+        :param username:
+        :return:
+        """
         return bool(User.query.filter(
             func.lower(User.username) == func.lower(username)
         ).first())
 
     @classmethod
     @log.catch()
-    def is_email_registered(cls, email, /) -> bool:
+    def is_email_registered(cls, email: username, /) -> bool:
         return bool(User.query.filter(
             func.lower(User.email) == func.lower(email)
         ).first())
 
     @classmethod
     @log.catch()
-    def get_by_email(cls, email, /):
+    def get_by_email(cls, email, /) -> Optional['User']:
         return db.session.query(User).filter_by(email=email).first()
 
     @classmethod
     @log.catch()
-    def get_by_username(cls, username, /):
+    def get_by_username(cls, username, /) -> Optional['User']:
         return db.session.query(User).filter_by(username=username).first()
 
     @classmethod
     @log.catch()
-    def get_by_id(cls, _id, /):
+    def get_by_id(cls, _id, /) -> Optional['User']:
         return db.session.query(User).filter_by(id=_id).first()
