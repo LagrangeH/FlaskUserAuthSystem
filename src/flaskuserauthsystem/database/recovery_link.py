@@ -5,7 +5,6 @@ from typing import Optional
 from loguru import logger as log
 
 from src.flaskuserauthsystem import db
-from src.flaskuserauthsystem.utils.password import check_password
 
 
 class RecoveryLink(db.Model):
@@ -85,9 +84,9 @@ class RecoveryLink(db.Model):
             return self.delete()
         self.decrease_attempts()
 
-    @classmethod
+    @staticmethod
     @log.catch()
-    def _get_first(cls, **kwargs) -> Optional['RecoveryLink']:
+    def _get_first(**kwargs) -> Optional['RecoveryLink']:
         """
         Get the first recovery link from the database by the given parameter[s]
         :param kwargs: Parameters to filter by
@@ -106,7 +105,7 @@ class RecoveryLink(db.Model):
         :param _id:
         :return:
         """
-        return cls._get(id=_id)
+        return cls._get_first(id=_id)
 
     @classmethod
     @log.catch()
@@ -116,11 +115,11 @@ class RecoveryLink(db.Model):
         :param link_token:
         :return: RecoveryLink object or None
         """
-        return cls._get(link_token=link_token)
+        return cls._get_first(link_token=link_token)
 
-    @classmethod
+    @staticmethod
     @log.catch()
-    def get_all_by_user_id(cls, user_id: int, /) -> list[Optional['RecoveryLink']]:
+    def get_all_by_user_id(user_id: int, /) -> list[Optional['RecoveryLink']]:
         """
         Get all recovery links for some user by user id
         :param user_id:

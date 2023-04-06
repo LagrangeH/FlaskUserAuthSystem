@@ -55,9 +55,9 @@ class User(UserMixin, db.Model):
         self.update()
         log.debug(f'User <{self}> has been deleted!')
 
-    @classmethod
+    @staticmethod
     @log.catch()
-    def is_username_registered(cls, username: str, /) -> bool:
+    def is_username_registered(username: str, /) -> bool:
         """
         Checks if the username exists in the `user` db table
         :param username:
@@ -67,24 +67,24 @@ class User(UserMixin, db.Model):
             func.lower(User.username) == func.lower(username)
         ).first())
 
-    @classmethod
+    @staticmethod
     @log.catch()
-    def is_email_registered(cls, email: username, /) -> bool:
+    def is_email_registered(email: username, /) -> bool:
         return bool(User.query.filter(
             func.lower(User.email) == func.lower(email)
         ).first())
 
-    @classmethod
+    @staticmethod
     @log.catch()
-    def get_by_email(cls, email, /) -> Optional['User']:
+    def get_by_email(email, /) -> Optional['User']:
         return db.session.query(User).filter_by(email=email).first()
 
-    @classmethod
+    @staticmethod
     @log.catch()
-    def get_by_username(cls, username, /) -> Optional['User']:
+    def get_by_username(username, /) -> Optional['User']:
         return db.session.query(User).filter_by(username=username).first()
 
-    @classmethod
+    @staticmethod
     @log.catch()
-    def get_by_id(cls, _id, /) -> Optional['User']:
+    def get_by_id(_id, /) -> Optional['User']:
         return db.session.query(User).filter_by(id=_id).first()
