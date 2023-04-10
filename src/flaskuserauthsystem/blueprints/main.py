@@ -1,12 +1,15 @@
-from flask import Blueprint, render_template
-from flask_login import login_required
+from flask import Blueprint, render_template, redirect
+from flask_login import login_required, current_user
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
 
 @bp.route('/')
 def about():
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        return redirect('/profile')
+    else:
+        return redirect('/auth/signin')
 
 
 @bp.route('/profile')
