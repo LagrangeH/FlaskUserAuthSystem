@@ -43,7 +43,7 @@ class User(UserMixin, db.Model):
         """
         db.session.add(self)
         self.update()
-        log.debug(f'User <{self}> has been registered!')
+        log.debug(f'User {self} has been registered!')
 
     @log.catch()
     def delete(self) -> None:
