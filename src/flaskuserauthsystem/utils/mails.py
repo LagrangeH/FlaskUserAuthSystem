@@ -1,5 +1,3 @@
-import datetime
-
 from flask_mail import Message, email_dispatched
 from loguru import logger as log
 
