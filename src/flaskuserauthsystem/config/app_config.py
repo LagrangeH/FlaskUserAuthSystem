@@ -2,15 +2,19 @@ import secrets
 
 from src.flaskuserauthsystem.config import env
 
-
 # Flask
 DEBUG: bool = env.bool("FLASK_DEBUG", default=False)
 SECRET_KEY: str = env.str("SECRET_KEY", default=secrets.token_hex())
 
 # Flask-WTF
-# TODO: Add checks for RECAPTCHA_PUBLIC_KEY and RECAPTCHA_PRIVATE_KEY (empty values)
-RECAPTCHA_PUBLIC_KEY: str = env.str("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY: str = env.str("RECAPTCHA_PRIVATE_KEY")
+RECAPTCHA_PUBLIC_KEY: str = env.str(
+    "RECAPTCHA_PUBLIC_KEY",
+    validate=lambda x: bool(x),
+)
+RECAPTCHA_PRIVATE_KEY: str = env.str(
+    "RECAPTCHA_PRIVATE_KEY",
+    validate=lambda x: bool(x),
+)
 WTF_CSRF_SECRET_KEY: str = env.str("WTF_CSRF_SECRET_KEY", default=secrets.token_hex())
 
 # Flask-SQLAlchemy

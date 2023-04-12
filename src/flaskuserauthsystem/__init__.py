@@ -1,3 +1,6 @@
+import sys
+
+import environs
 from flask import Flask
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -31,10 +34,14 @@ def create_app(testing: bool = False) -> Flask:
     app = Flask(__name__)
 
     # Load the configuration from the instance folder
-    if testing:
-        from src.flaskuserauthsystem.config import app_test_config as config
-    else:
-        from src.flaskuserauthsystem.config import app_config as config
+    try:
+        if testing:
+            from src.flaskuserauthsystem.config import app_test_config as config
+        else:
+            from src.flaskuserauthsystem.config import app_config as config
+    except environs.EnvValidationError as e:
+        log.error(f'Error while loading configuration from .env: {e}')
+        sys.exit(1)
 
     app.config.from_object(config)
 
