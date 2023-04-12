@@ -1,17 +1,25 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from loguru import logger as log
 
 
+# Declare extensions
 db = SQLAlchemy()
 login_manager = LoginManager()
 csrf = CSRFProtect()
+mail = Mail()
 
 
 @log.catch()
 def _register_blueprints(app: Flask) -> None:
+    """
+    Register blueprints for the application
+    :param app:
+    :return:
+    """
     from src.flaskuserauthsystem.blueprints import main, auth, errors
     app.register_blueprint(errors.bp)
     app.register_blueprint(main.bp)
@@ -36,10 +44,11 @@ def create_app(testing: bool = False) -> Flask:
     from src.flaskuserauthsystem.config.log_config import configure_logging
     configure_logging(debug=app.config['DEBUG'], testing=testing)
 
-    # Initialize the extensions
+    # Initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
     csrf.init_app(app)
+    mail.init_app(app)
 
     from src.flaskuserauthsystem.database.user import User
     from src.flaskuserauthsystem.database.recovery_link import RecoveryLink

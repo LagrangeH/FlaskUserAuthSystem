@@ -18,7 +18,7 @@ class RecoveryLink(db.Model):
         nullable=False,
         default=datetime.utcnow()
     )
-    lifetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow() + timedelta(days=1))
+    expiration_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow() + timedelta(days=1))
 
     def __repr__(self):
         return f'<RecoveryLink password {self.id!r} for user {self.id}>'
@@ -61,7 +61,7 @@ class RecoveryLink(db.Model):
         Checks for link expiration based on time and number of `attempts`
         :return:
         """
-        return datetime.utcnow() > self.creation_date + self.lifetime or self.attempts <= 0
+        return datetime.utcnow() > self.expiration_date or self.attempts <= 0
 
     @log.catch()
     def decrease_attempts(self) -> None:
@@ -101,7 +101,8 @@ class RecoveryLink(db.Model):
     @log.catch()
     def get_by_id(cls, _id: int, /) -> Optional['RecoveryLink']:
         """
-        Get recovery link by id
+        Get recovery link by id.
+        Check for None value should be implemented in the caller!
         :param _id:
         :return:
         """
@@ -111,7 +112,8 @@ class RecoveryLink(db.Model):
     @log.catch()
     def get_by_link_token(cls, link_token: str, /) -> Optional['RecoveryLink']:
         """
-        Get recovery link by token
+        Get recovery link by token.
+        Check for None value should be implemented in the caller!
         :param link_token:
         :return: RecoveryLink object or None
         """
@@ -121,7 +123,8 @@ class RecoveryLink(db.Model):
     @log.catch()
     def get_all_by_user_id(user_id: int, /) -> list[Optional['RecoveryLink']]:
         """
-        Get all recovery links for some user by user id
+        Get all recovery links for some user by user id.
+        Check for None value should be implemented in the caller!
         :param user_id:
         :return: List of RecoveryLink objects
         """

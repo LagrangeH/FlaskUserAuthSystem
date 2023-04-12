@@ -42,8 +42,8 @@ def test_create_recovery_password(app):
     #     recovery_password2 = RecoveryPassword(user_id=user.id, password_hash=recovery_password_hash, link_token=recovery_password.link_token)
     #     recovery_password2.create()
 
-    # Check that the lifetime and attempts fields were set correctly
-    # assert recovery_password.lifetime > 0
+    # Check that the expiration_date and attempts fields were set correctly
+    # assert recovery_password.expiration_date > 0
     # assert recovery_password.attempts > 0
 
 
@@ -65,7 +65,7 @@ def new_recovery_password(new_user):
     password = RecoveryPassword(
         user_id=new_user.id,
         password_hash="test_password_hash",
-        lifetime=timedelta(days=1),
+        expiration_date=timedelta(days=1),
         attempts=10,
     )
     password.create()
@@ -76,7 +76,7 @@ def test_create_recovery_password(new_user):
     password = RecoveryPassword(
         user_id=new_user.id,
         password_hash="test_password_hash",
-        lifetime=timedelta(days=1),
+        expiration_date=timedelta(days=1),
         attempts=10,
     )
     password.create()

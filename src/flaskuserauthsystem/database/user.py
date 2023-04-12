@@ -77,14 +77,29 @@ class User(UserMixin, db.Model):
     @staticmethod
     @log.catch()
     def get_by_email(email, /) -> Optional['User']:
+        """
+        Check for None value should be implemented in the caller!
+        :param email:
+        :return:
+        """
         return db.session.query(User).filter_by(email=email).first()
 
     @staticmethod
     @log.catch()
     def get_by_username(username, /) -> Optional['User']:
+        """
+        Check for None value should be implemented in the caller!
+        :param username:
+        :return:
+        """
         return db.session.query(User).filter_by(username=username).first()
 
     @staticmethod
     @log.catch()
     def get_by_id(_id, /) -> Optional['User']:
+        """
+        Check for None value should be implemented in the caller!
+        :param _id:
+        :return:
+        """
         return db.session.query(User).filter_by(id=_id).first()

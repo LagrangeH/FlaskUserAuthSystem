@@ -110,10 +110,15 @@ def reset_password(form=None):
             log.debug(f'User with email {email} not found for password reset')
             return render_template('auth/reset_password.html', email_not_found=True, form=form)
 
-        new_recovery_link = RecoveryLink(user_id=User.get_by_email(email).id)
+        intended_user = User.get_by_email(email)
+        if intended_user is None:
+            log.debug(f'User with email {email} not found for password reset')
+            return render_template('auth/reset_password.html', email_not_found=True, form=form)
+
+        new_recovery_link = RecoveryLink(user_id=intended_user.id)
         new_recovery_link.create()
 
-        send_mail(recovery_link=new_recovery_link)
+        send_mail(recovery_link=new_recovery_link, user=intended_user)
 
         return render_template('auth/check_email.html', email=email)
 
@@ -162,7 +167,8 @@ def recover_password(token, form=None):
             link.delete()
 
         log.success("Password reset successfully")
-        render_template('auth/signin.html', form=form)
+        # TODO: Add alert for user
+        return render_template('auth/signin.html', recovered=True, form=form)
 
     return render_template('auth/recover_password.html', form=form)
 
